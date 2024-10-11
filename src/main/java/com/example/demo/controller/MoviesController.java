@@ -46,9 +46,9 @@ public class MoviesController {
 
     // Create a new movie
     @PostMapping("/create")
-    public ResponseEntity<Movies> createMovie(@RequestBody Movies movie) {
+    public ResponseEntity<String> createMovie(@RequestBody Movies movie) {
         moviesService.saveMovie(movie);
-        return ResponseEntity.status(HttpStatus.CREATED).body(movie);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Movie created successfully.");
     }
 
     // Update an existing movie
@@ -59,15 +59,27 @@ public class MoviesController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found.");
         }
 
-        // Update movie details, or use a utility to map fields
+        // Update all movie details
         existingMovie.setTitle(updatedMovie.getTitle());
+        existingMovie.setDescription(updatedMovie.getDescription());
+        existingMovie.setGenre(updatedMovie.getGenre());
+        existingMovie.setDuration(updatedMovie.getDuration());
         existingMovie.setDirector(updatedMovie.getDirector());
+        existingMovie.setCasting(updatedMovie.getCasting());
         existingMovie.setReleaseDate(updatedMovie.getReleaseDate());
-        // Add other fields as necessary
+        existingMovie.setLanguagesAvailable(updatedMovie.getLanguagesAvailable());
+        existingMovie.setRating(updatedMovie.getRating());
+        existingMovie.setAvailable(updatedMovie.isAvailable());
+        existingMovie.setDistributor(updatedMovie.getDistributor());
+        existingMovie.setDimensionsAvailable(updatedMovie.getDimensionsAvailable());
+        existingMovie.setVerticalPosterBASE64(updatedMovie.getVerticalPosterBASE64());
+        existingMovie.setHorizontalPosterBASE64(updatedMovie.getHorizontalPosterBASE64());
 
+        // Save the updated movie
         moviesService.saveMovie(existingMovie);
         return ResponseEntity.ok("Movie updated successfully.");
     }
+
 
     // Delete a movie by ID
     @DeleteMapping("/delete/{id}")
