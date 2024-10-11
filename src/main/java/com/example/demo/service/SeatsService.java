@@ -53,40 +53,7 @@ public class SeatsService {
         return seatsRepository.findBySeatRowAndSeatColAndScreeningId(seatRow, seatCol, screeningId);
     }
 
-    /*
-    // Function to book (occupy) a seat
-    public boolean bookSeat(Long idScreening, Long seatId) {
-        Optional<Seats> seatOptional = seatsRepository.findSeatByidScreeningAndSeatId(idScreening, seatId);
-        if (seatOptional.isPresent()) {
-            Seats seat = seatOptional.get();
-            if (!seat.isBooked()) {
-                seat.setBooked(true); // Mark the seat as booked
-                seatsRepository.save(seat); // Save the updated seat state
-                return true; // Booking successful
-            } else {
-                return false; // Seat is already booked
-            }
-        }
-        return false; // Seat not found
+    public void deleteSeatsByBookingScreening(Long bookingScreeningId) {
+        seatsRepository.deleteByBookingScreeningId(bookingScreeningId);
     }
-
-    // Function to unbook (free up) a seat
-    public boolean unbookSeat(Long idScreening, Long seatId) {
-        Optional<Seats> seatOptional = seatsRepository.findSeatByidScreeningAndSeatId(idScreening, seatId);
-        if (seatOptional.isPresent()) {
-            Seats seat = seatOptional.get();
-            if (seat.isBooked()) {
-                seat.setBooked(false); // Mark the seat as unbooked
-                seatsRepository.save(seat); // Save the updated seat state
-                return true; // Unbooking successful
-            } else {
-                return false; // Seat is already unbooked
-            }
-        }
-        return false; // Seat not found
-    }
-
-    public Screenings getScreeningById(Long idScreening) {
-        return screeningRepository.findById(idScreening).orElse(null); // Use screeningRepository to find screening
-    }*/
 }

@@ -1,7 +1,9 @@
 package com.example.demo.repository;
 import com.example.demo.model.Screenings;
 import com.example.demo.model.Seats;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -32,4 +34,10 @@ public interface SeatsRepository extends JpaRepository<Seats, Long> {
     @Query("SELECT s FROM Seats s WHERE s.seatRow = :seatRow AND s.seatCol = :seatCol AND s.screening.idScreening = :screeningId")
     Seats findBySeatRowAndSeatColAndScreeningId(@Param("seatRow") int seatRow, @Param("seatCol") int seatCol, @Param("screeningId") Long screeningId);
 
+
+    ///
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Seats s WHERE s.bookingScreening.idBookingScreening = :bookingScreeningId")
+    void deleteByBookingScreeningId(@Param("bookingScreeningId") Long bookingScreeningId);
 }
