@@ -48,6 +48,11 @@ public class UserController {
 
         // Update fields
         existingUser.setName(updatedUser.getName());
+        for (Users user : userService.getAllUsers()) {
+            if (user.getEmail().equals(updatedUser.getEmail())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists.");
+            }
+        }
         existingUser.setEmail(updatedUser.getEmail());
 
         Users savedUser = userService.saveUser(existingUser);  // Save and return the updated user

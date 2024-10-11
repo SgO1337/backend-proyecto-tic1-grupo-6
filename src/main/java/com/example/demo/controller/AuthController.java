@@ -3,9 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.model.Users;
 import com.example.demo.repository.AuthRepository;
 import com.example.demo.service.AuthService;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -41,8 +43,12 @@ public class AuthController {
 }
 
 class LoginRequest {
+    @NotNull
     private String email;
+
+
     private String password;
+
 
     // Getters y setters
     public String getEmail() {

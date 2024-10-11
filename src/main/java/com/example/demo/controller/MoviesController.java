@@ -47,6 +47,10 @@ public class MoviesController {
     // Create a new movie
     @PostMapping("/create")
     public ResponseEntity<String> createMovie(@RequestBody Movies movie) {
+        if (movie.getTitle() == null || movie.getTitle().isEmpty() || movie.getDescription() == null || movie.getDescription().isEmpty() || movie.getGenre() == null || movie.getGenre().isEmpty() || movie.getDuration() == 0 || movie.getDirector() == null || movie.getDirector().isEmpty() || movie.getCasting() == null || movie.getCasting().isEmpty() || movie.getReleaseDate() == null || movie.getLanguagesAvailable() == null || movie.getLanguagesAvailable().isEmpty() || movie.getRating() == null || movie.getRating().isEmpty() || movie.getDistributor() == null || movie.getDistributor().isEmpty() || movie.getDimensionsAvailable() == null || movie.getDimensionsAvailable().isEmpty() || movie.getVerticalPosterBASE64() == null || movie.getVerticalPosterBASE64().isEmpty() || movie.getHorizontalPosterBASE64() == null || movie.getHorizontalPosterBASE64().isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incomplete set of data.");
+        }
+
         moviesService.saveMovie(movie);
         return ResponseEntity.status(HttpStatus.CREATED).body("Movie created successfully.");
     }

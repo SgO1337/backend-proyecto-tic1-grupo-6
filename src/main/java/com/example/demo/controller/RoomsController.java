@@ -27,6 +27,9 @@ public class RoomsController {
     // Create a new room
     @PostMapping("/create")
     public Rooms createRoom(@RequestBody Rooms room) {
+        if (room.getRoomName() == null || room.getRoomName().isEmpty()) {
+            return null;  // Handle incomplete data case (you may want to throw an exception or return a specific error)
+        }
         return roomsService.saveRoom(room);  // Create and return the new room as JSON
     }
 
