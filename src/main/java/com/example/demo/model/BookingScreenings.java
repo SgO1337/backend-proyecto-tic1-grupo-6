@@ -15,7 +15,7 @@ public class BookingScreenings {
     private boolean isCancelled;
 
     // Corrected relationship with Seats, making it bidirectional
-    @OneToMany(mappedBy = "bookingScreening", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "bookingScreening")
     private List<Seats> seats;
 
     @OneToOne
