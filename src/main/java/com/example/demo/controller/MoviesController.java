@@ -112,17 +112,28 @@ public class MoviesController {
 
         // Transform Branches to BranchLocationDTO
         List<BranchLocationDTO> branchLocations = branches.stream()
-                .map(branch -> new BranchLocationDTO(branch.getLocation())) // Adjust the method to get location
+                .map(branch -> new BranchLocationDTO(branch.getIdBranch(), branch.getLocation())) // Populate both id and location
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(branchLocations);
     }
 
     public class BranchLocationDTO {
-        private String location; // You can change the type based on your actual location data structure
+        private Long branchId;
+        private String location;
 
-        public BranchLocationDTO(String location) {
+        public BranchLocationDTO(Long branchId, String location) {
+            this.branchId = branchId;
             this.location = location;
+        }
+
+        // Getters and Setters
+        public Long getBranchId() {
+            return branchId;
+        }
+
+        public void setBranchId(Long branchId) {
+            this.branchId = branchId;
         }
 
         public String getLocation() {

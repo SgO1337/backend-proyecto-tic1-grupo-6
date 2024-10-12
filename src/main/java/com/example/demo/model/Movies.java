@@ -41,8 +41,9 @@ public class Movies {
     @Column(columnDefinition = "TEXT")
     private String horizontalPosterBASE64;
 
+    /*
     @OneToMany(mappedBy = "movie")
-    private List<Screenings> screenings; // Changed to singular to match the convention
+    private List<Screenings> screenings; // Changed to singular to match the convention*/
 
     public Long getIdMovie() {
         return idMovie;
@@ -165,13 +166,13 @@ public class Movies {
         this.horizontalPosterBASE64 = horizontalPosterBASE64;
     }
 
-    public List<Screenings> getScreenings() {
+    /*public List<Screenings> getScreenings() {
         return screenings;
     }
 
     public void setScreenings(List<Screenings> screenings) {
         this.screenings = screenings;
-    }
+    }*/
 
     public String getCasting() {
         return casting;
