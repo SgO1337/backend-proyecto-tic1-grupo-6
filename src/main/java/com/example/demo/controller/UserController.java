@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController  // RestController for JSON responses
 @RequestMapping("/api/users")
@@ -38,7 +39,6 @@ public class UserController {
         return ResponseEntity.ok(user);  // Return the user with 200 OK
     }
 
-    // Update an existing user
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody Users updatedUser) {
         Users existingUser = userService.getUserById(id);
@@ -46,17 +46,26 @@ public class UserController {
             return ResponseEntity.notFound().build();  // Return 404 Not Found if user doesn't exist
         }
 
-        // Update fields
-        existingUser.setName(updatedUser.getName());
-        for (Users user : userService.getAllUsers()) {
-            if (user.getEmail().equals(updatedUser.getEmail())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists.");
+        // Check if the email is being updated and if it already exists
+        if (!existingUser.getEmail().equals(updatedUser.getEmail())) {
+            for (Users user : userService.getAllUsers()) {
+                if (user.getEmail().equals(updatedUser.getEmail())) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists.");
+                }
             }
         }
+
+        // Update all user attributes
+        existingUser.setCI(updatedUser.getCI());
+        existingUser.setName(updatedUser.getName());
+        existingUser.setSurname(updatedUser.getSurname());
         existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setPassword(updatedUser.getPassword());
+        existingUser.setRole(updatedUser.getRole());
+        existingUser.setAge(updatedUser.getAge());
 
         Users savedUser = userService.saveUser(existingUser);  // Save and return the updated user
-        return ResponseEntity.ok("User created successfully.");  // Return the updated user with 200 OK
+        return ResponseEntity.ok("User updated successfully.");  // Return 200 OK
     }
 
     // Delete a user
