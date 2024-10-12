@@ -10,31 +10,58 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOrder;
+
     private Long userId;
-    @Column(nullable = false)
-    private Boolean isCancelled = false;
 
     @Column(nullable = false)
-    private Boolean isDelivered = false;
+    private Boolean cancelled = false; // Default value
+
+    @Column(nullable = false)
+    private Boolean delivered = false; // Default value
 
     private Date date;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id") // This will create a foreign key in OrderFood
     private List<OrderFood> orderFood;
 
-    // Constructor por defecto
+    // Default constructor
     public Orders() {
-        this.isCancelled = false; //es falso por defecto, hasta que se cancele
-
-        this.isDelivered = false; //es falso por defecto, hasta que se entregue
+        this.cancelled = false; // Default to false
+        this.delivered = false; // Default to false
     }
 
+    // Getters and Setters
     public Long getIdOrder() {
         return idOrder;
     }
 
     public void setIdOrder(Long idOrder) {
         this.idOrder = idOrder;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Boolean getCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(Boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public Boolean getDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(Boolean delivered) {
+        this.delivered = delivered;
     }
 
     public Date getDate() {
@@ -49,38 +76,7 @@ public class Orders {
         return orderFood;
     }
 
-    public void setOrderFood(OrderFood orderFood) {
-        this.orderFood.add(orderFood);
-    }
-
-    public Boolean getIsCancelled() {
-        return isCancelled;
-    }
-
-    public void setIsCancelled(Boolean isCancelled) {
-        this.isCancelled = isCancelled;
-    }
-
-    public Boolean getCancelled() {
-        return isCancelled;
-    }
-
-    public void setCancelled(Boolean cancelled) {
-        isCancelled = cancelled;
-    }
-
-    public Boolean getDelivered() {
-        return isDelivered;
-    }
-
-    public void setDelivered(Boolean delivered) {
-        isDelivered = delivered;
-    }
-
     public void setOrderFood(List<OrderFood> orderFood) {
         this.orderFood = orderFood;
     }
 }
-
-
-

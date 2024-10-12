@@ -11,7 +11,10 @@ public class Movies {
     private Long idMovie;
 
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
+
     private String genre;
 
     // Change to integer to represent duration in minutes
@@ -40,10 +43,6 @@ public class Movies {
 
     @Column(columnDefinition = "TEXT")
     private String horizontalPosterBASE64;
-
-    /*
-    @OneToMany(mappedBy = "movie")
-    private List<Screenings> screenings; // Changed to singular to match the convention*/
 
     public Long getIdMovie() {
         return idMovie;
@@ -165,14 +164,6 @@ public class Movies {
     public void setHorizontalPosterBASE64(String horizontalPosterBASE64) {
         this.horizontalPosterBASE64 = horizontalPosterBASE64;
     }
-
-    /*public List<Screenings> getScreenings() {
-        return screenings;
-    }
-
-    public void setScreenings(List<Screenings> screenings) {
-        this.screenings = screenings;
-    }*/
 
     public String getCasting() {
         return casting;

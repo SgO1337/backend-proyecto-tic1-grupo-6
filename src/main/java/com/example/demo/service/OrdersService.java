@@ -1,51 +1,79 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Orders;
+import com.example.demo.model.OrderFood;
 import com.example.demo.repository.OrdersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.repository.OrderFoodRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrdersService {
 
-    @Autowired
-    private OrdersRepository ordersRepository;
+    private final OrdersRepository ordersRepository;
+    private final OrderFoodRepository orderFoodRepository;
 
-    // Create a new order
-    public Orders createOrder(Orders order) {
-        return ordersRepository.save(order);
+    public OrdersService(OrdersRepository ordersRepository, OrderFoodRepository orderFoodRepository) {
+        this.ordersRepository = ordersRepository;
+        this.orderFoodRepository = orderFoodRepository;
     }
 
-    // Cancel an existing order
-    public Orders cancelOrder(Long id) {
-        Optional<Orders> optionalOrder = ordersRepository.findById(id);
-        if (optionalOrder.isPresent()) {
-            Orders order = optionalOrder.get();
-            order.setIsCancelled(true);
-            return ordersRepository.save(order);
+    // Save a new order
+    @Transactional
+    public Orders saveOrder(Orders order) {
+        // Save the order first
+        Orders savedOrder = ordersRepository.save(order);
+
+        // Save each OrderFood item linked to the order
+        for (OrderFood orderFood : order.getOrderFood()) {
+            orderFoodRepository.save(orderFood);
         }
-        return null; // or throw custom exception
+
+        return savedOrder;
     }
 
-    // Get all orders for a specific user
-    public List<Orders> getOrdersByUser(Long userId) {
-        return ordersRepository.findByUserId(userId); // Adapt based on your actual user relationship
+    // Get a list of all orders
+    public List<Orders> getAllOrders() {
+        return ordersRepository.findAll();
     }
 
-    // Update an existing order
+    // Get a specific order by ID
+    public Orders getOrderById(Long id) {
+        return ordersRepository.findById(id).orElse(null);
+    }
+
+    // Update an order
+    @Transactional
     public Orders updateOrder(Long id, Orders updatedOrder) {
-        Optional<Orders> optionalOrder = ordersRepository.findById(id);
-        if (optionalOrder.isPresent()) {
-            Orders existingOrder = optionalOrder.get();
-            existingOrder.setDate(updatedOrder.getDate());
-            existingOrder.setDelivered(updatedOrder.getDelivered());
-            existingOrder.setIsCancelled(updatedOrder.getIsCancelled());
-            existingOrder.setOrderFood(updatedOrder.getOrderFood()); // Handle updates for OrderFood
-            return ordersRepository.save(existingOrder);
+        Orders existingOrder = getOrderById(id);
+        if (existingOrder == null) {
+            return null;
         }
-        return null; // or throw custom exception
+
+        // Update the order fields
+        existingOrder.setCancelled(updatedOrder.getCancelled());
+        existingOrder.setDelivered(updatedOrder.getDelivered());
+        existingOrder.setDate(updatedOrder.getDate());
+
+        // Optionally update orderFood items here as well
+        // Note: If orderFood items are updated, they must be handled separately
+
+        return ordersRepository.save(existingOrder);
+    }
+
+    // Delete an order
+    @Transactional
+    public void deleteOrder(Long id) {
+        Orders order = getOrderById(id);
+        if (order != null) {
+            // Delete associated orderFood entries
+            for (OrderFood orderFood : order.getOrderFood()) {
+                orderFoodRepository.delete(orderFood);
+            }
+            // Delete the order
+            ordersRepository.delete(order);
+        }
     }
 }

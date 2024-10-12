@@ -18,10 +18,6 @@ public class Food {
     private String type;
     private double price;
 
-    //esto es necesario? lo comento y despues cuando este orders vemos
-    //@OneToMany(mappedBy = "food")
-    //private List<OrderFood> orders;
-
     public Long getIdFood() {
         return idFood;
     }

@@ -28,7 +28,7 @@ public class FoodController {
     }
 
     // View a specific food by ID
-    @GetMapping("/{id}")
+    @GetMapping("/view/{id}")
     public ResponseEntity<Food> viewFood(@PathVariable Long id) {
         Food food = foodService.getFoodById(id);
         if (food == null) {
@@ -38,14 +38,14 @@ public class FoodController {
     }
 
     // Create a new food
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Food> createFood(@RequestBody Food food) {
         Food createdFood = foodService.saveFood(food);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdFood);  // Return created food with HTTP 201 Created
     }
 
     // Update an existing food
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Food> updateFood(@PathVariable Long id, @RequestBody Food food) {
         Food existingFood = foodService.getFoodById(id);
         if (existingFood == null) {
@@ -62,7 +62,7 @@ public class FoodController {
     }
 
     // Delete a food
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteFood(@PathVariable Long id) {
         foodService.deleteFood(id);
         return ResponseEntity.noContent().build();  // Return HTTP 204 No Content

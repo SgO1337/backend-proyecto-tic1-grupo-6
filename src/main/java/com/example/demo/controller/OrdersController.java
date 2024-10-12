@@ -2,64 +2,69 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Orders;
 import com.example.demo.service.OrdersService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
-//este controlador se encarga de:
-/*
--crear una order, con sus respectivos objetos orderfood, que pueden variados
--cancelar una orden (baja logica)
--ver todas las ordenes de un usuario
-
--opcional: modificar orden
-*/
-
-@RestController  // Cambio a RestController para respuestas en JSON
-@RequestMapping("/api/orders")  // Cambia la URL base para empezar con /api
-@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
+@RestController
+@RequestMapping("/api/orders")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class OrdersController {
 
-    @Autowired
-    private OrdersService ordersService;
+    private final OrdersService ordersService;
 
-    // Create an order with its associated order foods
-    @PostMapping
+    public OrdersController(OrdersService ordersService) {
+        this.ordersService = ordersService;
+    }
+
+    @PostMapping("/create")
     public ResponseEntity<Orders> createOrder(@RequestBody Orders order) {
-        Orders savedOrder = ordersService.createOrder(order);
-        return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
-    }
-
-    // Cancel an order (logical deletion)
-    @PatchMapping("/{id}/cancel")
-    public ResponseEntity<Orders> cancelOrder(@PathVariable Long id) {
-        Orders order = ordersService.cancelOrder(id);
-        if (order != null) {
-            return new ResponseEntity<>(order, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        // Set default values if necessary
+        if (order.getCancelled() == null) {
+            order.setCancelled(false);
         }
+        if (order.getDelivered() == null) {
+            order.setDelivered(false);
+        }
+
+        Orders createdOrder = ordersService.saveOrder(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
-    // Get all orders for a specific user
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Orders>> getOrdersByUser(@PathVariable Long userId) {
-        List<Orders> orders = ordersService.getOrdersByUser(userId);
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+
+    // Get a list of all orders
+    @GetMapping
+    public ResponseEntity<List<Orders>> listOrders() {
+        List<Orders> ordersList = ordersService.getAllOrders();
+        return ResponseEntity.ok(ordersList);
     }
 
-    // Optional: Update an existing order
-    @PutMapping("/{id}")
+    // Get a specific order by its ID
+    @GetMapping("/view/{id}")
+    public ResponseEntity<Orders> getOrderById(@PathVariable Long id) {
+        Orders order = ordersService.getOrderById(id);
+        if (order == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(order);
+    }
+
+    // Update an existing order
+    @PutMapping("/update/{id}")
     public ResponseEntity<Orders> updateOrder(@PathVariable Long id, @RequestBody Orders updatedOrder) {
         Orders order = ordersService.updateOrder(id, updatedOrder);
-        if (order != null) {
-            return new ResponseEntity<>(order, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (order == null) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(order);
+    }
+
+    // Delete an order
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        ordersService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
     }
 }
