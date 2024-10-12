@@ -1,11 +1,16 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Branches;
 import com.example.demo.model.Movies;
 import com.example.demo.service.MoviesService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
+
 
 import java.util.List;
 
@@ -96,4 +101,67 @@ public class MoviesController {
         moviesService.deleteMovie(id);
         return ResponseEntity.ok("Movie deleted successfully.");
     }
+
+    @GetMapping("/{id}/branches")
+    public ResponseEntity<?> getBranchesForMovie(@PathVariable Long id) {
+        List<Branches> branches = moviesService.getBranchesForMovie(id);
+
+        if (branches.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No branches were found where the movie is being screened.");
+        }
+
+        // Transform Branches to BranchLocationDTO
+        List<BranchLocationDTO> branchLocations = branches.stream()
+                .map(branch -> new BranchLocationDTO(branch.getLocation())) // Adjust the method to get location
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(branchLocations);
+    }
+
+    public class BranchLocationDTO {
+        private String location; // You can change the type based on your actual location data structure
+
+        public BranchLocationDTO(String location) {
+            this.location = location;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+    }
+
+    // Endpoint to get all screening dates for a specific movie at a specific branch
+    @GetMapping("/{movieId}/branches/{branchId}/screening-dates")
+    public ResponseEntity<List<String>> getScreeningDatesForMovieAtBranch(
+            @PathVariable Long movieId,
+            @PathVariable Long branchId) {
+        List<String> screeningDates = moviesService.getScreeningDatesForMovieAtBranch(movieId, branchId);
+
+        if (screeningDates.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(screeningDates);
+        }
+
+        return ResponseEntity.ok(screeningDates);
+    }
+
+    // Endpoint to get all screening times for a specific movie at a specific branch and date
+    @GetMapping("/{movieId}/branches/{branchId}/dates/{date}/screening-times")
+    public ResponseEntity<List<String>> getScreeningTimesForMovieBranchAndDate(
+            @PathVariable Long movieId,
+            @PathVariable Long branchId,
+            @PathVariable String date) {
+        List<String> screeningTimes = moviesService.getScreeningTimesForMovieBranchAndDate(movieId, branchId, date);
+
+        if (screeningTimes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(screeningTimes);
+        }
+
+        return ResponseEntity.ok(screeningTimes);
+    }
 }
+
+

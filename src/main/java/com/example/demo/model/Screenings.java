@@ -17,8 +17,8 @@ public class Screenings {
     @JoinColumn(name = "idMovie", nullable = false)
     private Movies movie;
 
-    @OneToOne
-    @JoinColumn(name = "idRoom", nullable = false,  referencedColumnName = "idRoom")
+    @ManyToOne // Change to ManyToOne
+    @JoinColumn(name = "idRoom", nullable = false, referencedColumnName = "idRoom")
     private Rooms room;
 
     public Long getIdScreening() {

@@ -47,7 +47,7 @@ public class ScreeningsController {
         }
         return ResponseEntity.ok(screening);
     }
-
+    /*
     @PostMapping("/create")
     public ResponseEntity<?> createScreening(@RequestBody Screenings screenings) {
         // Check if the movie exists
@@ -64,6 +64,16 @@ public class ScreeningsController {
         Screenings savedScreening = screeningService.saveScreening(screenings);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedScreening);
+    }*/
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createScreening(@RequestBody Screenings screening) {
+        try {
+            Screenings createdScreening = screeningService.createScreening(screening);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdScreening);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
 
