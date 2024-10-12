@@ -82,6 +82,11 @@ public class MoviesService {
     public List<String> getScreeningTimesForMovieBranchAndDate(Long movieId, Long branchId, String date) {
         return screeningRepository.findScreeningTimesByMovieBranchAndDate(movieId, branchId, date);
     }
+
+    // Logic to fetch screening ID for the specified movie, date, time, and branch
+    public Long getScreeningId(Long movieId, String date, String time, Long branchId) {
+        return screeningRepository.findScreeningIdByMovieBranchDateAndTime(movieId, date, time, branchId);
+    }
 }
 
 

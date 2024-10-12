@@ -32,6 +32,32 @@ public class AuthController {
         }
     }
 
+    public static class LoginRequest {
+        @NotNull
+        private String email;
+
+
+        private String password;
+
+
+        // Getters y setters
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Users request) throws Exception {
         if(authRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -39,31 +65,5 @@ public class AuthController {
         }
         authService.registerUser(request.getEmail(), request.getPassword(), request.getName(), request.getCI(), request.getAge(), request.getSurname(), request.getRole());
         return ResponseEntity.ok("Usuario registrado exitosamente.");
-    }
-}
-
-class LoginRequest {
-    @NotNull
-    private String email;
-
-
-    private String password;
-
-
-    // Getters y setters
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

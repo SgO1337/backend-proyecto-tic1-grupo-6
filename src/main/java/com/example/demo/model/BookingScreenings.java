@@ -10,7 +10,7 @@ public class BookingScreenings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBookingScreening;
 
-    private LocalDateTime bookingTime;
+    //private LocalDateTime bookingTime; //no tiene sentido porque es el el mismo del screening, que es clave foranea de esta misma entidad
 
     private boolean isCancelled;
 
@@ -34,14 +34,14 @@ public class BookingScreenings {
     public void setIdBookingScreening(Long idBookingScreening) {
         this.idBookingScreening = idBookingScreening;
     }
-
+    /*
     public LocalDateTime getBookingTime() {
         return bookingTime;
     }
 
     public void setBookingTime(LocalDateTime bookingTime) {
         this.bookingTime = bookingTime;
-    }
+    }*/
 
     public boolean isCancelled() {
         return isCancelled;

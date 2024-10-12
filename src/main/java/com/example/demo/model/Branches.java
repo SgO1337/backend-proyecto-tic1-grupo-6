@@ -5,15 +5,10 @@ import java.util.List;
 
 @Entity
 public class Branches{
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBranch;
     private String location;
-
-    @OneToMany(mappedBy ="branch")
-    private List<Rooms> rooms;
-    
     
     public Long getIdBranch(){
         return this.idBranch;
@@ -26,14 +21,5 @@ public class Branches{
     }
     public void setLocation(String location){
         this.location = location;
-    }
-
-
-    public List<Rooms> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Rooms> rooms) {
-        this.rooms = rooms;
     }
 }

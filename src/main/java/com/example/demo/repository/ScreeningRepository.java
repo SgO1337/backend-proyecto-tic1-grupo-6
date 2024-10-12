@@ -27,4 +27,15 @@ public interface ScreeningRepository extends JpaRepository<Screenings, Long> {
     List<String> findScreeningTimesByMovieBranchAndDate(@Param("movieId") Long movieId,
                                                         @Param("branchId") Long branchId,
                                                         @Param("date") String date);
+
+    @Query("SELECT s.idScreening FROM Screenings s " +  // Assuming 'idScreening' is the unique identifier
+            "JOIN s.room r " +
+            "WHERE s.movie.idMovie = :movieId " +
+            "AND s.date = :date " +
+            "AND s.time = :time " +  // Ensure you have a 'time' field in your Screening entity
+            "AND r.branch.idBranch = :branchId")
+    Long findScreeningIdByMovieBranchDateAndTime(@Param("movieId") Long movieId,
+                                                 @Param("date") String date,
+                                                 @Param("time") String time,
+                                                 @Param("branchId") Long branchId);
 }

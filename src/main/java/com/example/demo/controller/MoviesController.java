@@ -118,7 +118,7 @@ public class MoviesController {
         return ResponseEntity.ok(branchLocations);
     }
 
-    public class BranchLocationDTO {
+    public static class BranchLocationDTO {
         private Long branchId;
         private String location;
 
@@ -172,6 +172,80 @@ public class MoviesController {
         }
 
         return ResponseEntity.ok(screeningTimes);
+    }
+
+    // Endpoint to get the unique screening ID for a specific movie, date, time, and branch from a JSON body
+    @PostMapping("/get-screening-from-cascade-dropdown")
+    public ResponseEntity<ScreeningIdResponseDTO> getScreeningId(@RequestBody ScreeningRequestDTO screeningRequest) {
+        Long screeningId = moviesService.getScreeningId(
+                screeningRequest.getMovieId(),
+                screeningRequest.getDate(),
+                screeningRequest.getTime(),
+                screeningRequest.getBranchId()
+        );
+
+        //no requiere validacion porque nunca estaria vacio en caso de uso normal, a menos que inspeccionen elemento y rompan la pagina
+
+        // Create the response DTO
+        ScreeningIdResponseDTO response = new ScreeningIdResponseDTO(screeningId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    public static class ScreeningRequestDTO {
+        private Long movieId;
+        private Long branchId;
+        private String date;
+        private String time;
+
+        // Getters and Setters
+        public Long getMovieId() {
+            return movieId;
+        }
+
+        public void setMovieId(Long movieId) {
+            this.movieId = movieId;
+        }
+
+        public Long getBranchId() {
+            return branchId;
+        }
+
+        public void setBranchId(Long branchId) {
+            this.branchId = branchId;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getTime() {
+            return time;
+        }
+
+        public void setTime(String time) {
+            this.time = time;
+        }
+    }
+
+    public static class ScreeningIdResponseDTO {
+        private Long screeningId;
+
+        public ScreeningIdResponseDTO(Long screeningId) {
+            this.screeningId = screeningId;
+        }
+
+        public Long getScreeningId() {
+            return screeningId;
+        }
+
+        public void setScreeningId(Long screeningId) {
+            this.screeningId = screeningId;
+        }
     }
 }
 
