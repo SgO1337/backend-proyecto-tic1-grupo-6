@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,16 +20,15 @@ public class Seats {
     private int seatCol;
 
     @ManyToOne
-    @JoinColumn(name = "screening_id", nullable = true) // Make sure to set nullable = false
+    @JoinColumn(name = "screening_id")
     private Screenings screening;
 
-    // This is the missing field
     @ManyToOne
-    @JoinColumn(name = "booking_screening_id") // Match the foreign key name from BookingScreenings
+    @JoinColumn(name = "booking_screening_id")
+    @JsonIgnore //esto resuelve el problema de la recursion infinita, mostrando solo los asientos asignados cuando muestro un bs
     private BookingScreenings bookingScreening;
 
     // Getters and setters
-
     public Long getIdSeat() {
         return idSeat;
     }
