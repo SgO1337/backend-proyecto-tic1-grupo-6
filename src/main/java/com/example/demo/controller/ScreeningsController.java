@@ -68,6 +68,18 @@ public class ScreeningsController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createScreening(@RequestBody Screenings screening) {
+        // Verificar si el Room existe antes de crear el screening
+        Long roomId = screening.getRoom().getIdRoom();
+
+
+        if (!roomService.existsById(roomId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
+        }
+
+        if(!movieService.existsById(screening.getMovie().getIdMovie())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested movie wasn't found.");
+        }
+
         try {
             Screenings createdScreening = screeningService.createScreening(screening);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdScreening);
@@ -84,6 +96,14 @@ public class ScreeningsController {
         Screenings existingScreening = screeningService.getScreeningById(id);
         if (existingScreening == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Screening not found.");
+        }
+
+        if(!movieService.existsById(updatedScreening.getMovie().getIdMovie())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested movie wasn't found.");
+        }
+
+        if(!roomService.existsById(updatedScreening.getRoom().getIdRoom())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
         }
 
         // Update screening details

@@ -28,6 +28,7 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+
     // Save a new user or update an existing one
     @Transactional
     public Users saveUser(Users user) {
@@ -42,4 +43,9 @@ public class UserService {
         Optional<Users> user = userRepository.findById(id);
         user.ifPresent(u -> userRepository.deleteById(id));
     }
+
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
 }

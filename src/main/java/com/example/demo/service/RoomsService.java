@@ -59,7 +59,7 @@ public class RoomsService {
     }
 
     // Check if room exists by ID
-    public boolean existsById(Long id) {
+    public  boolean existsById(Long id) {
         return roomsRepository.existsById(id);  // Check for existence
     }
 
