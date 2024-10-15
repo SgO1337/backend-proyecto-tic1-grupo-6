@@ -14,9 +14,11 @@ import java.util.List;
 public class OrdersController {
 
     private final OrdersService ordersService;
+    private final UserService userService;
 
-    public OrdersController(OrdersService ordersService) {
+    public OrdersController(OrdersService ordersService, UserService userService) {
         this.ordersService = ordersService;
+        this.userService = userService;
     }
 
     @PostMapping("/create")
@@ -27,6 +29,10 @@ public class OrdersController {
         }
         if (order.getDelivered() == null) {
             order.setDelivered(false);
+        }
+
+        if (!userService.existsById(order.getUserId())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Return 404 Not Found pero no se por que no me deja que el response entity devuelva un tipo genérico
         }
 
         Orders createdOrder = ordersService.saveOrder(order);
@@ -56,7 +62,9 @@ public class OrdersController {
     public ResponseEntity<Orders> updateOrder(@PathVariable Long id, @RequestBody Orders updatedOrder) {
         Orders order = ordersService.updateOrder(id, updatedOrder);
 
-
+        if (!userService.existsById(updatedOrder.getUserId())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Return 404 Not Found pero no se por que no me deja que el response entity devuelva un tipo genérico
+        }
 
         if (order == null) {
             return ResponseEntity.notFound().build();
