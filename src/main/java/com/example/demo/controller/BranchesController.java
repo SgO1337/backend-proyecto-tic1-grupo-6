@@ -35,6 +35,9 @@ public class BranchesController {
 
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody Branches branch) throws Exception {
+        if(branch.getLocation() == null || branch.getLocation().isEmpty()) {
+            return ResponseEntity.status(400).body("Incomplete set of data.");
+        }
         branchesService.createBranch(branch.getLocation());
         return ResponseEntity.ok("Branch created successfully.");
     }

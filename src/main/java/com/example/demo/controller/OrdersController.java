@@ -22,7 +22,7 @@ public class OrdersController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Orders> createOrder(@RequestBody Orders order) {
+    public ResponseEntity<?> createOrder(@RequestBody Orders order) {
         // Set default values if necessary
         if (order.getCancelled() == null) {
             order.setCancelled(false);
@@ -32,7 +32,7 @@ public class OrdersController {
         }
 
         if (!userService.existsById(order.getUserId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Return 404 Not Found pero no se por que no me deja que el response entity devuelva un tipo genérico
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user who supposedly placed the order does not exist"); // Return 404 Not Found pero no se por que no me deja que el response entity devuelva un tipo genérico
         }
 
         Orders createdOrder = ordersService.saveOrder(order);
@@ -59,11 +59,11 @@ public class OrdersController {
 
     // Update an existing order
     @PutMapping("/update/{id}")
-    public ResponseEntity<Orders> updateOrder(@PathVariable Long id, @RequestBody Orders updatedOrder) {
+    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody Orders updatedOrder) {
         Orders order = ordersService.updateOrder(id, updatedOrder);
 
         if (!userService.existsById(updatedOrder.getUserId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Return 404 Not Found pero no se por que no me deja que el response entity devuelva un tipo genérico
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user who supposedly placed the order does not exist"); // Return 404 Not Found pero no se por que no me deja que el response entity devuelva un tipo genérico
         }
 
         if (order == null) {

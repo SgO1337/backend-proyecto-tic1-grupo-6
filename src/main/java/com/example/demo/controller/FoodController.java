@@ -39,7 +39,10 @@ public class FoodController {
 
     // Create a new food
     @PostMapping("/create")
-    public ResponseEntity<Food> createFood(@RequestBody Food food) {
+    public ResponseEntity<?> createFood(@RequestBody Food food) {
+        if(food.getName() == null || food.getName().isEmpty() || food.getPrice() == 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("incomplete set of data");  // Return HTTP 400 Bad Request if incomplete data
+        }
         Food createdFood = foodService.saveFood(food);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdFood);  // Return created food with HTTP 201 Created
     }

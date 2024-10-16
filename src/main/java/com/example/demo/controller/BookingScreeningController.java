@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Screenings;
+import com.example.demo.service.ScreeningService;
 import jakarta.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -23,11 +25,13 @@ public class BookingScreeningController {
 
     private final SeatsService seatService;
     private final UserService userService;
+    private final ScreeningService screeningService;
 
-    public BookingScreeningController(BookingScreeningService bookingScreeningService, SeatsService seatService, UserService userService) {
+    public BookingScreeningController(BookingScreeningService bookingScreeningService, SeatsService seatService, UserService userService, ScreeningService screeningService) {
         this.bookingScreeningService = bookingScreeningService;
         this.seatService = seatService;
         this.userService = userService;
+        this.screeningService = screeningService;
     }
 
     @GetMapping
@@ -53,10 +57,33 @@ public class BookingScreeningController {
         if (existingUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }
+        if (bookingScreenings.getScreening() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A screening is needed to create a Booking Screening.");
+        }
 
-        bookingScreenings.setUser(existingUser);
+        boolean userExists = false;
+        existingUser = bookingScreenings.getUser();
+        for (Users u : userService.getAllUsers()) {
+            if (u.getIdUser().equals(existingUser.getIdUser())) {
+                userExists = true;
+                break;
+            }
+        }
+        if (!userExists) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+        }
 
-        bookingScreeningService.saveBookingScreening(bookingScreenings);
+        boolean screeningExists = false;
+        for (Screenings s : screeningService.getAllScreenings()) {
+            if (s.getIdScreening().equals(bookingScreenings.getScreening().getIdScreening())) {
+                screeningExists = true;
+                break;
+            }
+        }
+        if (!screeningExists) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("screening not found.");
+        }
+
 
         int counter = 0;
         List<Seats> seats = bookingScreenings.getSeats();
