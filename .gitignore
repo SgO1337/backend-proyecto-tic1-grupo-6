@@ -41,6 +41,7 @@ nbdist/
 # Environment variables
 .env
 
+
 # Exclude Maven build directories within specific subdirectories
 !**/src/main/**/target/
 !**/src/test/**/target/

@@ -28,7 +28,7 @@ public class SeatsController {
 
     @GetMapping("/booked-seats/{idScreening}")
     public ResponseEntity<List<Seats>> getBookedSeats(@PathVariable Long idScreening) {
-        
+
         List<Seats> seats = seatService.getSeatsByScreeningId(idScreening);
         return ResponseEntity.ok(seats);
     }
