@@ -24,6 +24,14 @@ public class SeatsController {
         List<Seats> seats = seatService.getAllSeatsByidScreening(idScreening);
         return ResponseEntity.ok(seats);
     }
+
+
+    @GetMapping("/booked-seats/{idScreening}")
+    public ResponseEntity<List<Seats>> getBookedSeats(@PathVariable Long idScreening) {
+        
+        List<Seats> seats = seatService.getSeatsByScreeningId(idScreening);
+        return ResponseEntity.ok(seats);
+    }
 /*
     // Book a seat for a specific screening
     @PutMapping("/book")

@@ -56,4 +56,8 @@ public class SeatsService {
     public void deleteSeatsByBookingScreening(Long bookingScreeningId) {
         seatsRepository.deleteByBookingScreeningId(bookingScreeningId);
     }
+
+    public List<Seats> getSeatsByScreeningId(Long screeningId) {
+        return seatsRepository.findByScreeningId(screeningId);
+    }
 }

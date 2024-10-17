@@ -69,4 +69,8 @@ public class ScreeningService {
         // Save the new screening if it passes the checks
         return screeningRepository.save(screening);
     }
+
+    public boolean existsById(Long id) {
+        return screeningRepository.existsById(id);
+    }
 }

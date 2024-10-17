@@ -61,27 +61,13 @@ public class BookingScreeningController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A screening is needed to create a Booking Screening.");
         }
 
-        boolean userExists = false;
-        existingUser = bookingScreenings.getUser();
-        for (Users u : userService.getAllUsers()) {
-            if (u.getIdUser().equals(existingUser.getIdUser())) {
-                userExists = true;
-                break;
-            }
-        }
-        if (!userExists) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-        }
 
-        boolean screeningExists = false;
-        for (Screenings s : screeningService.getAllScreenings()) {
-            if (s.getIdScreening().equals(bookingScreenings.getScreening().getIdScreening())) {
-                screeningExists = true;
-                break;
-            }
-        }
-        if (!screeningExists) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("screening not found.");
+        if (!userService.existsById(bookingScreenings.getUser().getIdUser())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");}
+
+
+        if(!screeningService.existsById(bookingScreenings.getScreening().getIdScreening())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Screening not found.");
         }
 
 
@@ -115,6 +101,8 @@ public class BookingScreeningController {
     }
 
     //NO SE PUEDE MODIFICAR UN BOOKINGSCRENEING PORQUE SERIA MUY COMPLICADO, PREGUNTARLE A ROLO SI PRETENDE AGREGARLO
+
+
 }
 
 

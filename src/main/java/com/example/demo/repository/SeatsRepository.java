@@ -34,6 +34,9 @@ public interface SeatsRepository extends JpaRepository<Seats, Long> {
     @Query("SELECT s FROM Seats s WHERE s.seatRow = :seatRow AND s.seatCol = :seatCol AND s.screening.idScreening = :screeningId")
     Seats findBySeatRowAndSeatColAndScreeningId(@Param("seatRow") int seatRow, @Param("seatCol") int seatCol, @Param("screeningId") Long screeningId);
 
+    @Query("SELECT s FROM Seats s WHERE s.screening.idScreening = :screeningId")
+    List<Seats> findByScreeningId(@Param("screeningId") Long screeningId);
+
 
     ///
     @Modifying
