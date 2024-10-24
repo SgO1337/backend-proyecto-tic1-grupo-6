@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Branches;
 import com.example.demo.service.BranchesService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class BranchesController {
         List<Branches> branches = branchesService.getAllBranches();
         return ResponseEntity.ok(branches); // Return the list of branches as JSON
     }
-
+    @Profile("prod")
     @GetMapping("/view/{id}")
     public ResponseEntity<?> viewBranch(@PathVariable Long id) {
         Branches branch = branchesService.getBranchById(id);

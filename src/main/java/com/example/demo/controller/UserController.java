@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Users;
 import com.example.demo.service.UserService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -76,5 +77,24 @@ public class UserController {
         }
         userService.deleteUser(id);  // Delete the user by ID
         return ResponseEntity.noContent().build();  // Return 204 No Content after deletion
+    }
+
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createUser(@RequestBody Users user) {
+        // Set default values if necessary
+        if (user.getRole() == null) {
+            user.setRole("USER");
+        }
+
+        // Check if the email already exists
+        for (Users existingUser : userService.getAllUsers()) {
+            if (Objects.equals(existingUser.getEmail(), user.getEmail())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists.");
+            }
+        }
+
+        Users createdUser = userService.saveUser(user);  // Save and return the created user
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);  // Return 201 Created
     }
 }

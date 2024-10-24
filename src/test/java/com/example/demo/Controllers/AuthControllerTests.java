@@ -1,141 +1,119 @@
 package com.example.demo.Controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.example.demo.controller.AuthController;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import com.example.demo.controller.UserController;
 import com.example.demo.model.Users;
-import com.example.demo.repository.AuthRepository;
-import com.example.demo.service.AuthService;
 import com.example.demo.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.junit.jupiter.api.BeforeEach;  // Use JUnit 5's @BeforeEach
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@WebMvcTest(AuthController.class)
-@ActiveProfiles("test")  // Use the test profile with PostgreSQL (application-test.properties)
+import java.util.Arrays;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(controllers = UserController.class)
+@WithMockUser(username = "user", roles = {"ADMIN"})
 @AutoConfigureMockMvc
 public class AuthControllerTests {
-
-
-    @Autowired
-    private AuthController authController;
-
-    @BeforeEach  // Use @BeforeEach for JUnit 5
-    public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
 
     @Autowired
     private MockMvc mockMvc;
 
-
     @MockBean
-    private UserController userscontroller;  // Mock the service
+    private UserService userService;
 
-    @MockBean
-    private UserService userService;  // Mock the service
-
-    @MockBean
-    private AuthRepository authRepository;  // Mock the repository
-
-    @MockBean
-    private AuthService authService;  // Mock the service
-
-    @Autowired
-    private ObjectMapper objectMapper;  // For converting objects to JSON
-
+    private Users user1;
+    private Users user2;
     @Autowired
     private WebApplicationContext webApplicationContext;
+    @BeforeEach
+    void setUp() {
+        // Sample Users
+        // Sample Users using setters
+        user1 = new Users();
+        user1.setId(1L);
+        user1.setCI(123456);
+        user1.setName("John");
+        user1.setSurname("Doe");
+        user1.setEmail("john@example.com");
+        user1.setPassword("password");
+        user1.setRole("USER");
+        user1.setAge(25);
 
+        user2 = new Users();
+        user2.setId(2L);
+        user2.setCI(654321);
+        user2.setName("Jane");
+        user2.setSurname("Doe");
+        user2.setEmail("jane@example.com");
+        user2.setPassword("password");
+        user2.setRole("ADMIN");
+        user2.setAge(28);
 
-    @Test
-    public void testRegistrarUsuario() throws Exception {
-
-        // Create a test user object
-        Users usuario = new Users();
-        usuario.setName("Santi");
-        usuario.setCI(12345678);
-        usuario.setSurname("Garcia");
-        usuario.setEmail("testuser@example.com");
-        usuario.setPassword("P@assword123");
-        usuario.setRole("user");
-        usuario.setAge(20);
-
-        // Convert user to JSON
-        String usuarioJson = objectMapper.writeValueAsString(usuario);
-
-        // Simulate the POST request to the registration endpoint
-        mockMvc.perform(post("/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(usuarioJson))
-                .andExpect(status().isCreated())  // Check that it returns 201 CREATED
-                .andExpect(content().string("Usuario registrado exitosamente."));
-
-
+        // Mocking UserService behavior
+        Mockito.when(userService.getAllUsers()).thenReturn(Arrays.asList(user1, user2));
+        Mockito.when(userService.getUserById(1L)).thenReturn(user1);
+        Mockito.when(userService.getUserById(2L)).thenReturn(user2);
+        Mockito.when(userService.saveUser(any(Users.class))).thenReturn(user1);
+        Mockito.doNothing().when(userService).deleteUser(anyLong());
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void testLoginUsuario() throws Exception {
-        Users usuario = new Users();
-        usuario.setName("Santi");
-        usuario.setCI(12345678);
-        usuario.setSurname("Garcia");
-        usuario.setEmail("testuser@example.com");
-        usuario.setPassword("P@assword123");
-        usuario.setRole("user");
-        usuario.setAge(20);
-        authService.registerUser(usuario.getEmail(), usuario.getPassword(), usuario.getName(), usuario.getCI(), usuario.getAge(), usuario.getSurname(), usuario.getRole());
-        // Convert user to JSON
-
-        LoginRequest lr = new LoginRequest();
-        lr.setEmail("testuser@example.com");
-        lr.setPassword("P@assword123");
-        String loginUsuarioJson = objectMapper.writeValueAsString(lr);
-
-        // Simulate the POST request to the registration endpoint
-        mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(loginUsuarioJson))
-                .andExpect(status().isOk())  // Check that it returns 200 OK
-                .andExpect(content().string("Login exitoso."));
+    void listUsers_shouldReturnListOfUsers() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[{\"idUser\":1,\"ci\":123456,\"name\":\"John\",\"surname\":\"Doe\",\"email\":\"john@example.com\",\"password\":\"password\",\"role\":\"USER\",\"age\":25}," +
+                        "{\"idUser\":2,\"ci\":654321,\"name\":\"Jane\",\"surname\":\"Doe\",\"email\":\"jane@example.com\",\"password\":\"password\",\"role\":\"ADMIN\",\"age\":28}]"));
     }
 
-    public static class LoginRequest {
-        @NotNull
-        private String email;
+    @Test
+    void viewUser_shouldReturnUserById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/view/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("{\"idUser\":1,\"ci\":123456,\"name\":\"John\",\"surname\":\"Doe\",\"email\":\"john@example.com\",\"password\":\"password\",\"role\":\"USER\",\"age\":25}"));
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = {"USER"})
+    void updateUser_shouldUpdateAndReturnSuccess() throws Exception {
+        String userJson = "{\"ci\":987654,\"name\":\"Updated John\",\"surname\":\"Doe\",\"email\":\"updatedjohn@example.com\",\"password\":\"newpassword\",\"role\":\"USER\",\"age\":30}";
+
+        // Log the JSON being sent
+        System.out.println("Request JSON: " + userJson);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/update/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson))
+                .andDo(print()) // This will log the request and response
+                .andExpect(status().isOk())
+                .andExpect(content().string("User updated successfully."));
+    }
 
 
-        private String password;
-
-
-        // Getters y setters
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
+    @Test
+    void deleteUser_shouldDeleteUserAndReturnNoContent() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/delete/1"))
+                .andExpect(status().isNoContent());
     }
 }

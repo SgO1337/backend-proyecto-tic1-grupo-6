@@ -102,4 +102,8 @@ public class Users {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public void setId(long l) {
+        this.idUser = l;
+    }
 }
