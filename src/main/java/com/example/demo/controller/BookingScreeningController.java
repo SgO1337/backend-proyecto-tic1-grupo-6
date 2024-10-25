@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Screenings;
-import com.example.demo.service.ScreeningService;
 import jakarta.transaction.Transactional;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +12,7 @@ import com.example.demo.model.BookingScreenings;
 import com.example.demo.model.Seats;
 import com.example.demo.service.BookingScreeningService;
 import com.example.demo.service.SeatsService;
+import com.example.demo.service.ScreeningService;
 
 import java.util.List;
 
@@ -102,8 +100,6 @@ public class BookingScreeningController {
     }
 
     //NO SE PUEDE MODIFICAR UN BOOKINGSCRENEING PORQUE SERIA MUY COMPLICADO, PREGUNTARLE A ROLO SI PRETENDE AGREGARLO
-
-
 }
 
 

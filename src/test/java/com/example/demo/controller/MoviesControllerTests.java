@@ -1,4 +1,4 @@
-package com.example.demo.Controllers;
+package com.example.demo.controller;
 
 public class MoviesControllerTests {
 }

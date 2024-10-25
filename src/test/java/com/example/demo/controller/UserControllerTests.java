@@ -1,7 +1,7 @@
-package com.example.demo.Controllers;
+package com.example.demo.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import com.example.demo.controller.UserController;
+
 import com.example.demo.model.Users;
 import com.example.demo.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
