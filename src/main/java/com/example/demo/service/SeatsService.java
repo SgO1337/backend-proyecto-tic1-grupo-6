@@ -34,12 +34,6 @@ public class SeatsService {
         seatsRepository.save(seat);
     }
 
-
-    public Seats findSeatByRowAndCol(int seatRow, int seatCol) {
-        // Find the seat using row and column only
-        return seatsRepository.findBySeatRowAndSeatCol(seatRow, seatCol);
-    }
-
     // You can also implement the method to find by screening ID if needed
     public Seats findBySeatRowAndSeatColAndScreeningId(int seatRow, int seatCol, Long screeningId) {
         return seatsRepository.findBySeatRowAndSeatColAndScreeningId(seatRow, seatCol, screeningId);

@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class BookingScreeningsControllerTest {
@@ -77,7 +76,6 @@ public class BookingScreeningsControllerTest {
         assertEquals("Booking Screening not found.", response.getBody());
     }
 
-    /*
     @Test
     void createBookingScreening_ShouldCreateBookingScreeningSuccessfully() {
         BookingScreenings bookingScreening = new BookingScreenings();
@@ -100,18 +98,23 @@ public class BookingScreeningsControllerTest {
         screening.setIdScreening(8L); // Set screening ID
         bookingScreening.setScreening(screening);
 
-        when(userService.getUserById(2L)).thenReturn(user);
         when(userService.existsById(2L)).thenReturn(true);
         when(screeningService.existsById(8L)).thenReturn(true);
+
+        // Mock seatService's findBySeatRowAndSeatColAndScreeningId method
+        when(seatService.findBySeatRowAndSeatColAndScreeningId(anyInt(), anyInt(), eq(8L))).thenReturn(null);
 
         ResponseEntity<?> response = bookingScreeningController.createBookingScreening(bookingScreening);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Booking Screening created successfully: counter: 0", response.getBody());
+        assertEquals("Booking Screening created successfully.", response.getBody());
 
-        // Verify that seats are booked
-        verify(seatService, times(3)).createAndBookSeat(any(), anyInt(), anyInt(), eq(8L));
-    }*/
+        // Verify that createAndBookSeat is called for each seat
+        for (Seats seat : bookingScreening.getSeats()) {
+            verify(seatService, times(1)).createAndBookSeat(seat);
+        }
+    }
+
 
     @Test
     void createBookingScreening_ShouldReturnBadRequestIfUserNotFound() {
@@ -120,7 +123,7 @@ public class BookingScreeningsControllerTest {
 
         ResponseEntity<?> response = bookingScreeningController.createBookingScreening(bookingScreening);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("User not found.", response.getBody());
     }
 
@@ -132,7 +135,6 @@ public class BookingScreeningsControllerTest {
         bookingScreening.setScreening(new Screenings());
         bookingScreening.getScreening().setIdScreening(8L); // Set a screening ID
 
-        when(userService.getUserById(2L)).thenReturn(new Users());
         when(userService.existsById(2L)).thenReturn(true);
         when(screeningService.existsById(8L)).thenReturn(false); // Screening does not exist
 
@@ -166,4 +168,37 @@ public class BookingScreeningsControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("Booking Screening not found.", response.getBody());
     }
+
+    @Test
+    void createBookingScreening_ShouldReturnConflictIfDuplicateSeats() {
+        BookingScreenings bookingScreening = new BookingScreenings();
+        bookingScreening.setCancelled(false);
+        bookingScreening.setSeats(Arrays.asList(new Seats(), new Seats()));
+
+        // Set seat properties using setters
+        bookingScreening.getSeats().get(0).setSeatRow(1);
+        bookingScreening.getSeats().get(0).setSeatCol(1);
+        bookingScreening.getSeats().get(1).setSeatRow(1);
+        bookingScreening.getSeats().get(1).setSeatCol(1); // Duplicate seat
+
+        Users user = new Users();
+        user.setIdUser(2L);
+        bookingScreening.setUser(user);
+
+        Screenings screening = new Screenings();
+        screening.setIdScreening(8L); // Set screening ID
+        bookingScreening.setScreening(screening);
+
+        when(userService.existsById(2L)).thenReturn(true);
+        when(screeningService.existsById(8L)).thenReturn(true);
+
+        // Mocking the seatService to return a booked seat for the first seat
+        when(seatService.findBySeatRowAndSeatColAndScreeningId(1, 1, 8L)).thenReturn(new Seats());
+
+        ResponseEntity<?> response = bookingScreeningController.createBookingScreening(bookingScreening);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals("Seat (1, 1) is already booked for this screening.", response.getBody());
+    }
+
 }
