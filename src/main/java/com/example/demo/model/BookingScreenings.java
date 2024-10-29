@@ -11,18 +11,19 @@ public class BookingScreenings {
 
     private boolean isCancelled;
 
-    @OneToMany(mappedBy = "bookingScreening")
+    @OneToMany(mappedBy = "bookingScreening", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seats> seats;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idUser")
     private Users user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idScreening")
     private Screenings screening;
 
-    // Getters and setters
+    // Getters and Setters
+
     public Long getIdBookingScreening() {
         return idBookingScreening;
     }
@@ -35,8 +36,8 @@ public class BookingScreenings {
         return isCancelled;
     }
 
-    public void setCancelled(boolean cancelled) {
-        isCancelled = cancelled;
+    public void setCancelled(boolean isCancelled) {
+        this.isCancelled = isCancelled;
     }
 
     public List<Seats> getSeats() {

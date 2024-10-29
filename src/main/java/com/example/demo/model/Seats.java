@@ -15,17 +15,11 @@ public class Seats {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSeat;
 
-    private boolean isBooked;
     private int seatRow;
     private int seatCol;
 
     @ManyToOne
-    @JoinColumn(name = "screening_id")
-    private Screenings screening;
-
-    @ManyToOne
-    @JoinColumn(name = "booking_screening_id")
-    @JsonIgnore //esto resuelve el problema de la recursion infinita, mostrando solo los asientos asignados cuando muestro un bs
+    @JoinColumn(name = "idBookingScreening")
     private BookingScreenings bookingScreening;
 
     // Getters and setters
@@ -35,14 +29,6 @@ public class Seats {
 
     public void setIdSeat(Long idSeat) {
         this.idSeat = idSeat;
-    }
-
-    public boolean isBooked() {
-        return isBooked;
-    }
-
-    public void setBooked(boolean booked) {
-        isBooked = booked;
     }
 
     public int getSeatRow() {
@@ -59,14 +45,6 @@ public class Seats {
 
     public void setSeatCol(int seatCol) {
         this.seatCol = seatCol;
-    }
-
-    public Screenings getScreening() {
-        return screening;
-    }
-
-    public void setScreening(Screenings screening) {
-        this.screening = screening;
     }
 
     public BookingScreenings getBookingScreening() {

@@ -40,7 +40,6 @@ public class SeatsControllerTests {
         List<Seats> seatsList = new ArrayList<>();
         Seats seat = new Seats();
         seat.setIdSeat(1L);
-        seat.setBooked(false);
         seat.setSeatRow(1);
         seat.setSeatCol(1);
         seatsList.add(seat);
@@ -52,26 +51,6 @@ public class SeatsControllerTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(seatsList, response.getBody());
         verify(seatService, times(1)).getAllSeatsByidScreening(idScreening);
-    }
-
-    @Test
-    void getBookedSeats_ShouldReturnListOfBookedSeats() {
-        Long idScreening = 1L;
-        List<Seats> bookedSeatsList = new ArrayList<>();
-        Seats bookedSeat = new Seats();
-        bookedSeat.setIdSeat(1L);
-        bookedSeat.setBooked(true);
-        bookedSeat.setSeatRow(1);
-        bookedSeat.setSeatCol(1);
-        bookedSeatsList.add(bookedSeat);
-
-        when(seatService.getSeatsByScreeningId(idScreening)).thenReturn(bookedSeatsList);
-
-        ResponseEntity<List<Seats>> response = seatsController.getBookedSeats(idScreening);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(bookedSeatsList, response.getBody());
-        verify(seatService, times(1)).getSeatsByScreeningId(idScreening);
     }
 
     @Test

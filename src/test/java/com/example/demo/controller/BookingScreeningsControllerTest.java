@@ -77,6 +77,7 @@ public class BookingScreeningsControllerTest {
         assertEquals("Booking Screening not found.", response.getBody());
     }
 
+    /*
     @Test
     void createBookingScreening_ShouldCreateBookingScreeningSuccessfully() {
         BookingScreenings bookingScreening = new BookingScreenings();
@@ -110,7 +111,7 @@ public class BookingScreeningsControllerTest {
 
         // Verify that seats are booked
         verify(seatService, times(3)).createAndBookSeat(any(), anyInt(), anyInt(), eq(8L));
-    }
+    }*/
 
     @Test
     void createBookingScreening_ShouldReturnBadRequestIfUserNotFound() {

@@ -27,21 +27,13 @@ public class SeatsService {
     // Function to return all seats and their states for a given screening
     public List<Seats> getAllSeatsByidScreening(Long idScreening) {
         List<Seats> bookedSeats = seatsRepository.getAllBookedSeatsByidScreening(idScreening);
-        List<Seats> unbookedSeats = seatsRepository.getAllUnbookedSeatsByidScreening(idScreening);
-        List<Seats> allSeats = new ArrayList<>(bookedSeats);
-        allSeats.addAll(unbookedSeats);
-        return allSeats;
+        return bookedSeats;
     }
 
-    public void createAndBookSeat(BookingScreenings bookingScreenings, int seatRow, int seatCol, Long screeningId) {
-        Seats seat = new Seats();
-        seat.setSeatRow(seatRow);
-        seat.setSeatCol(seatCol);
-        seat.setScreening(bookingScreenings.getScreening()); // Associate with screening
-        seat.setBookingScreening(bookingScreenings); // Associate with BookingScreenings
-
+    public void createAndBookSeat(Seats seat) {
         seatsRepository.save(seat);
     }
+
 
     public Seats findSeatByRowAndCol(int seatRow, int seatCol) {
         // Find the seat using row and column only
@@ -49,7 +41,7 @@ public class SeatsService {
     }
 
     // You can also implement the method to find by screening ID if needed
-    public Seats findSeatByRowAndColAndScreeningId(int seatRow, int seatCol, Long screeningId) {
+    public Seats findBySeatRowAndSeatColAndScreeningId(int seatRow, int seatCol, Long screeningId) {
         return seatsRepository.findBySeatRowAndSeatColAndScreeningId(seatRow, seatCol, screeningId);
     }
 

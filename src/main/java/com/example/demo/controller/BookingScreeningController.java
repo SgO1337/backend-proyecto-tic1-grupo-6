@@ -47,40 +47,51 @@ public class BookingScreeningController {
         return ResponseEntity.ok(bookingScreening);
     }
 
-
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<?> createBookingScreening(@RequestBody BookingScreenings bookingScreenings) {
-        // Fetch the user from the database before associating
-        Users existingUser = userService.getUserById(bookingScreenings.getUser().getIdUser());
-        if (existingUser == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
-        }
-        if (bookingScreenings.getScreening() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A screening is needed to create a Booking Screening.");
+        if (!userService.existsById(bookingScreenings.getUser().getIdUser())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
 
-
-        if (!userService.existsById(bookingScreenings.getUser().getIdUser())){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");}
-
-
-        if(!screeningService.existsById(bookingScreenings.getScreening().getIdScreening())){
+        if (!screeningService.existsById(bookingScreenings.getScreening().getIdScreening())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Screening not found.");
         }
 
-
-        int counter = 0;
         List<Seats> seats = bookingScreenings.getSeats();
 
+        // Check if any of the requested seats are already booked for this screening
         if (seats != null && !seats.isEmpty()) {
             for (Seats seat : seats) {
-                seatService.createAndBookSeat(bookingScreenings, seat.getSeatRow(), seat.getSeatCol(), bookingScreenings.getScreening().getIdScreening());
+                Seats bookedSeat = seatService.findBySeatRowAndSeatColAndScreeningId(
+                        seat.getSeatRow(),
+                        seat.getSeatCol(),
+                        bookingScreenings.getScreening().getIdScreening()
+                );
+
+                if (bookedSeat != null) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT)
+                            .body("Seat (" + seat.getSeatRow() + ", " + seat.getSeatCol() + ") is already booked for this screening.");
+                }
             }
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Booking Screening created successfully: counter: " + counter);
+        // Save the booking screening first
+        BookingScreenings savedBookingScreening = bookingScreeningService.saveBookingScreening(bookingScreenings);
+
+        // Assign the saved booking screening to the seats
+        if (seats != null && !seats.isEmpty()) {
+            for (Seats seat : seats) {
+                seat.setBookingScreening(savedBookingScreening); // Set the bookingScreening reference
+                seatService.createAndBookSeat(seat); // Save the updated seat
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Booking Screening created successfully.");
     }
+
+
+
 
     @DeleteMapping("/delete/{id}")
     @Transactional
