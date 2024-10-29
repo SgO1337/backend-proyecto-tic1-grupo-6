@@ -54,7 +54,7 @@ public class RoomsController {
 
             for (Rooms r : roomsService.getAllRooms()) {
                 if (r.getRoomName().equals(room.getRoomName()) && r.getBranch().equals(room.getBranch())) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body("A room with the ame name is already created in the same branch");
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("A room with the same name is already created in the same branch");
                     // Handle duplicate room name case (you may want to throw an exception or return a specific error)
                 }}
 

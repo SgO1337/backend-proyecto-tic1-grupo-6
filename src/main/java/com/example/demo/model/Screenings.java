@@ -72,4 +72,8 @@ public class Screenings {
     public Rooms getRoom() {
         return this.room;
     }
+
+    public void setRoom(Rooms room) {
+        this.room = room;
+    }
 }
