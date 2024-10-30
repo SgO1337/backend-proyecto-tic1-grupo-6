@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Movies;
+import com.example.demo.model.Rooms;
 import com.example.demo.model.Screenings;
 import com.example.demo.service.MoviesService;
 import com.example.demo.service.RoomsService;
@@ -73,8 +75,12 @@ public class ScreeningsControllerTests {
     @Test
     void createScreening_ShouldCreateScreeningSuccessfully() {
         Screenings screening = new Screenings();
-        screening.setMovie(new MoviesService());
-        screening.setRoom(new RoomsService());
+        Movies movie = new Movies();
+        movie.setTitle("testTitle");
+        screening.setMovie(movie);
+        Rooms room = new Rooms();
+        room.setRoomName("testRoomName");
+        screening.setRoom(room);
 
         when(roomService.existsById(screening.getRoom().getIdRoom())).thenReturn(true);
         when(movieService.existsById(screening.getMovie().getIdMovie())).thenReturn(true);
@@ -90,7 +96,12 @@ public class ScreeningsControllerTests {
     @Test
     void createScreening_ShouldReturnNotFoundIfRoomDoesNotExist() {
         Screenings screening = new Screenings();
-        screening.setRoom(new RoomsService());
+        Movies movie = new Movies();
+        movie.setTitle("testTitle");
+        screening.setMovie(movie);
+        Rooms room = new Rooms();
+        room.setRoomName("testRoomName");
+        screening.setRoom(room);
 
         when(roomService.existsById(screening.getRoom().getIdRoom())).thenReturn(false);
 
@@ -104,8 +115,12 @@ public class ScreeningsControllerTests {
     @Test
     void createScreening_ShouldReturnNotFoundIfMovieDoesNotExist() {
         Screenings screening = new Screenings();
-        screening.setMovie(new MoviesService());
-        screening.setRoom(new RoomsService());
+        Movies movie = new Movies();
+        movie.setTitle("testTitle");
+        screening.setMovie(movie);
+        Rooms room = new Rooms();
+        room.setRoomName("testRoomName");
+        screening.setRoom(room);
 
         when(roomService.existsById(screening.getRoom().getIdRoom())).thenReturn(true);
         when(movieService.existsById(screening.getMovie().getIdMovie())).thenReturn(false);
@@ -125,6 +140,14 @@ public class ScreeningsControllerTests {
         Screenings updatedScreening = new Screenings();
         updatedScreening.setIdScreening(1L);
 
+        Movies movie = new Movies();
+        movie.setTitle("updatedTitle");
+        updatedScreening.setMovie(movie);
+
+        Rooms room = new Rooms();
+        room.setRoomName("updatedRoomName");
+        updatedScreening.setRoom(room);
+
         when(screeningService.getScreeningById(1L)).thenReturn(existingScreening);
         when(movieService.existsById(updatedScreening.getMovie().getIdMovie())).thenReturn(true);
         when(roomService.existsById(updatedScreening.getRoom().getIdRoom())).thenReturn(true);
@@ -140,8 +163,13 @@ public class ScreeningsControllerTests {
     @Test
     void updateScreening_ShouldReturnNotFoundIfScreeningDoesNotExist() {
         Screenings updatedScreening = new Screenings();
-        updatedScreening.setMovie(new MoviesService());
-        updatedScreening.setRoom(new RoomsService());
+        Movies movie = new Movies();
+        movie.setTitle("updatedTitle");
+        updatedScreening.setMovie(movie);
+
+        Rooms room = new Rooms();
+        room.setRoomName("updatedRoomName");
+        updatedScreening.setRoom(room);
 
         when(screeningService.getScreeningById(1L)).thenReturn(null);
 

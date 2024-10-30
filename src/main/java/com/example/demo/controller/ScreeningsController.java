@@ -22,8 +22,10 @@ public class ScreeningsController {
     private final ScreeningService screeningService;
 
     @Autowired
-    public ScreeningsController(ScreeningService screeningService, SeatsService seatService) {
+    public ScreeningsController(ScreeningService screeningService, MoviesService movieService, RoomsService roomService, SeatsService seatService) {
         this.screeningService = screeningService;
+        this.movieService = movieService;
+        this.roomService = roomService;
     }
 
     @Autowired
@@ -48,24 +50,6 @@ public class ScreeningsController {
         }
         return ResponseEntity.ok(screening);
     }
-    /*
-    @PostMapping("/create")
-    public ResponseEntity<?> createScreening(@RequestBody Screenings screenings) {
-        // Check if the movie exists
-        if (screenings.getMovie() == null || !movieService.existsById(screenings.getMovie().getIdMovie())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested movie wasn't found.");
-        }
-
-        // Check if the room exists
-        if (screenings.getRoom() == null || !roomService.existsById(screenings.getRoom().getIdRoom())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
-        }
-
-        // Save the screening if both movie and room exist
-        Screenings savedScreening = screeningService.saveScreening(screenings);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedScreening);
-    }*/
 
     @PostMapping("/create")
     public ResponseEntity<?> createScreening(@RequestBody Screenings screening) {
