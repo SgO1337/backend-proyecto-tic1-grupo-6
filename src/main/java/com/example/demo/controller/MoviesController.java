@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Branches;
 import com.example.demo.model.Movies;
+import com.example.demo.model.Rooms;
 import com.example.demo.service.MoviesService;
 
+import com.example.demo.service.ScreeningService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,11 @@ import java.util.List;
 public class MoviesController {
 
     private final MoviesService moviesService;
+    private final ScreeningService screeningService;
 
-    public MoviesController(MoviesService moviesService) {
+    public MoviesController(MoviesService moviesService, ScreeningService screeningService) {
         this.moviesService = moviesService;
+        this.screeningService = screeningService;
     }
 
     // List all movies
@@ -88,6 +92,16 @@ public class MoviesController {
         // Save the updated movie
         moviesService.saveMovie(existingMovie);
         return ResponseEntity.ok("Movie updated successfully.");
+    }
+
+    @GetMapping("/{idMovie}/branches/{idBranch}/dates/{date}/screening-times/{screeningTime}/get-available-rooms")
+    public ResponseEntity<List<Rooms>> getAvailableRooms(
+            @PathVariable Long idMovie,
+            @PathVariable Long idBranch,
+            @PathVariable String date,
+            @PathVariable String screeningTime) {
+        List<Rooms> availableRooms = screeningService.getAvailableRooms(idMovie, idBranch, date, screeningTime);
+        return ResponseEntity.ok(availableRooms);
     }
 
 
@@ -177,12 +191,13 @@ public class MoviesController {
 
     // Endpoint to get the unique screening ID for a specific movie, date, time, and branch from a JSON body
     @PostMapping("/get-screening-from-cascade-dropdown")
-    public ResponseEntity<ScreeningIdResponseDTO> getScreeningId(@RequestBody ScreeningRequestDTO screeningRequest) {
+    public ResponseEntity<?> getScreeningId(@RequestBody ScreeningRequestDTO screeningRequest) {
         Long screeningId = moviesService.getScreeningId(
                 screeningRequest.getMovieId(),
                 screeningRequest.getDate(),
                 screeningRequest.getTime(),
-                screeningRequest.getBranchId()
+                screeningRequest.getBranchId(),
+                screeningRequest.getRoomId()
         );
 
         //no requiere validacion porque nunca estaria vacio en caso de uso normal, a menos que inspeccionen elemento y rompan la pagina
@@ -198,6 +213,15 @@ public class MoviesController {
         private Long branchId;
         private String date;
         private String time;
+        private Long roomId;
+
+        public Long getRoomId() {
+            return roomId;
+        }
+
+        public void setRoomId(Long roomId) {
+            this.roomId = roomId;
+        }
 
         // Getters and Setters
         public Long getMovieId() {

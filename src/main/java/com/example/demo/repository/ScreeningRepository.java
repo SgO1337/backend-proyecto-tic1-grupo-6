@@ -28,14 +28,31 @@ public interface ScreeningRepository extends JpaRepository<Screenings, Long> {
                                                         @Param("branchId") Long branchId,
                                                         @Param("date") String date);
 
-    @Query("SELECT s.idScreening FROM Screenings s " +  // Assuming 'idScreening' is the unique identifier
+    ///
+    @Query("SELECT s.room FROM Screenings s " +
+            "WHERE s.movie.idMovie = :movieId " +
+            "AND s.room.branch.idBranch = :branchId " +
+            "AND s.date = :date " +
+            "AND s.time = :screeningTime " +
+            "AND s.room IS NOT NULL") // Add any additional criteria for availability if needed
+    List<Rooms> findAvailableRoomsByMovieBranchDateAndTime(
+            @Param("movieId") Long movieId,
+            @Param("branchId") Long branchId,
+            @Param("date") String date,
+            @Param("screeningTime") String screeningTime);
+    ///
+
+    @Query("SELECT s.idScreening FROM Screenings s " +
             "JOIN s.room r " +
             "WHERE s.movie.idMovie = :movieId " +
             "AND s.date = :date " +
-            "AND s.time = :time " +  // Ensure you have a 'time' field in your Screening entity
-            "AND r.branch.idBranch = :branchId")
-    Long findScreeningIdByMovieBranchDateAndTime(@Param("movieId") Long movieId,
-                                                 @Param("date") String date,
-                                                 @Param("time") String time,
-                                                 @Param("branchId") Long branchId);
+            "AND s.time = :time " +
+            "AND r.branch.idBranch = :branchId " +
+            "AND s.room.idRoom = :roomId") // Use r.idRoom instead of s.room
+    Long findScreeningIdByMovieBranchDateAndTime(
+            @Param("movieId") Long movieId,
+            @Param("date") String date,
+            @Param("time") String time,
+            @Param("branchId") Long branchId,
+            @Param("roomId") Long roomId);
 }

@@ -9,13 +9,17 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+//para logs
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+//remover en prod
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MoviesService {
-
+    private static final Logger log = LoggerFactory.getLogger(MoviesService.class);
 
     @Autowired
     private final MoviesRepository moviesRepository;
@@ -83,9 +87,8 @@ public class MoviesService {
         return screeningRepository.findScreeningTimesByMovieBranchAndDate(movieId, branchId, date);
     }
 
-    // Logic to fetch screening ID for the specified movie, date, time, and branch
-    public Long getScreeningId(Long movieId, String date, String time, Long branchId) {
-        return screeningRepository.findScreeningIdByMovieBranchDateAndTime(movieId, date, time, branchId);
+    public Long getScreeningId(Long movieId, String date, String time, Long branchId, Long roomId) {
+        return screeningRepository.findScreeningIdByMovieBranchDateAndTime(movieId, date, time, branchId, roomId);
     }
 }
 

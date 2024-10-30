@@ -61,13 +61,12 @@ public class ScreeningService {
             throw new IllegalArgumentException("Date or time is missing.");
         }
 
-
-
-
-
-
         // Save the new screening if it passes the checks
         return screeningRepository.save(screening);
+    }
+
+    public List<Rooms> getAvailableRooms(Long movieId, Long branchId, String date, String screeningTime) {
+        return screeningRepository.findAvailableRoomsByMovieBranchDateAndTime(movieId, branchId, date, screeningTime);
     }
 
     public boolean existsById(Long id) {
