@@ -1,10 +1,7 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity
@@ -17,6 +14,17 @@ public class Food {
     private String name;
     private String type;
     private double price;
+
+    @Column(columnDefinition = "TEXT")
+    private String imageBASE64;
+
+    public String getImageBASE64() {
+        return imageBASE64;
+    }
+
+    public void setImageBASE64(String imageBASE64) {
+        this.imageBASE64 = imageBASE64;
+    }
 
     public Long getIdFood() {
         return idFood;
