@@ -1,22 +1,24 @@
-# Importing JDK and copying required files
+# Stage 1: Build stage using OpenJDK 21
 FROM openjdk:21-jdk AS build
 WORKDIR /app
+
+# Copy necessary files
 COPY pom.xml .
 COPY src src
-
-# Copy Maven wrapper
 COPY mvnw .
 COPY .mvn .mvn
+COPY .env .env
 
-# Set execution permission for the Maven wrapper
+# Set execution permission and build the application
 RUN chmod +x ./mvnw
 RUN ./mvnw clean package -DskipTests
 
-# Stage 2: Create the final Docker image using OpenJDK 19
+# Stage 2: Runtime stage
 FROM openjdk:21-jdk
+WORKDIR /app
 VOLUME /tmp
 
-# Copy the JAR from the build stage
+# Copy the JAR file from the build stage
 COPY --from=build /app/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 EXPOSE 9090
