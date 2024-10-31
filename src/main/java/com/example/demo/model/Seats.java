@@ -18,6 +18,7 @@ public class Seats {
     private int seatRow;
     private int seatCol;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "idBookingScreening")
     private BookingScreenings bookingScreening;

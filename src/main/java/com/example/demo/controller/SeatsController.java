@@ -16,13 +16,6 @@ public class SeatsController {
     @Autowired
     private SeatsService seatService;
 
-    // Get all seats for a specific screening
-    @GetMapping
-    public ResponseEntity<List<Seats>> getAllSeats(@RequestParam Long idScreening) {
-        List<Seats> seats = seatService.getAllSeatsByidScreening(idScreening);
-        return ResponseEntity.ok(seats);
-    }
-
     @GetMapping("/booked-seats/{idScreening}")
     public ResponseEntity<List<Seats>> getBookedSeats(@PathVariable Long idScreening) {
 

@@ -35,37 +35,6 @@ public class SeatsControllerTests {
     }
 
     @Test
-    void getAllSeats_ShouldReturnListOfSeats() {
-        Long idScreening = 1L;
-        List<Seats> seatsList = new ArrayList<>();
-        Seats seat = new Seats();
-        seat.setIdSeat(1L);
-        seat.setSeatRow(1);
-        seat.setSeatCol(1);
-        seatsList.add(seat);
-
-        when(seatService.getAllSeatsByidScreening(idScreening)).thenReturn(seatsList);
-
-        ResponseEntity<List<Seats>> response = seatsController.getAllSeats(idScreening);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(seatsList, response.getBody());
-        verify(seatService, times(1)).getAllSeatsByidScreening(idScreening);
-    }
-
-    @Test
-    void getAllSeats_ShouldReturnEmptyListIfNoSeatsFound() {
-        Long idScreening = 1L;
-        when(seatService.getAllSeatsByidScreening(idScreening)).thenReturn(new ArrayList<>());
-
-        ResponseEntity<List<Seats>> response = seatsController.getAllSeats(idScreening);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(0, response.getBody().size());
-        verify(seatService, times(1)).getAllSeatsByidScreening(idScreening);
-    }
-
-    @Test
     void getBookedSeats_ShouldReturnEmptyListIfNoBookedSeatsFound() {
         Long idScreening = 1L;
         when(seatService.getSeatsByScreeningId(idScreening)).thenReturn(new ArrayList<>());
