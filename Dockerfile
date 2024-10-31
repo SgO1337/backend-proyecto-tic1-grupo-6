@@ -7,7 +7,6 @@ COPY pom.xml .
 COPY src src
 COPY mvnw .
 COPY .mvn .mvn
-COPY .env .env
 
 # Set execution permission and build the application
 RUN chmod +x ./mvnw
