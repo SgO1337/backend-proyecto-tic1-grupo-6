@@ -6,16 +6,19 @@ import com.example.demo.service.RoomsService;
 import com.example.demo.service.ScreeningService;
 import com.example.demo.service.SeatsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * ScreeningsController is a REST controller that manages screening-related operations.
+ * It provides endpoints for listing, viewing, creating, updating, and deleting screenings.
+ */
 @RestController
 @RequestMapping("/api/screenings")
-//@CrossOrigin(origins = "http://localhost:3000") //uncomment when going into prod
+//@CrossOrigin(origins = "http://localhost:3000") // uncomment when going into prod
 public class ScreeningsController {
 
     @Autowired
@@ -34,14 +37,23 @@ public class ScreeningsController {
     @Autowired
     private RoomsService roomService;
 
-    // List all screenings
+    /**
+     * Lists all screenings.
+     *
+     * @return a ResponseEntity containing the list of screenings and a 200 OK status
+     */
     @GetMapping
     public ResponseEntity<List<Screenings>> listScreenings() {
         List<Screenings> screenings = screeningService.getAllScreenings();
         return ResponseEntity.ok(screenings);
     }
 
-    // View screening by ID
+    /**
+     * Views a specific screening by its ID.
+     *
+     * @param id the ID of the screening to view
+     * @return a ResponseEntity containing the screening details or a 404 Not Found status
+     */
     @GetMapping("/view/{id}")
     public ResponseEntity<?> viewScreening(@PathVariable Long id) {
         Screenings screening = screeningService.getScreeningById(id);
@@ -51,17 +63,22 @@ public class ScreeningsController {
         return ResponseEntity.ok(screening);
     }
 
+    /**
+     * Creates a new screening.
+     *
+     * @param screening the screening details to create
+     * @return a ResponseEntity containing the created screening or an error message
+     */
     @PostMapping("/create")
     public ResponseEntity<?> createScreening(@RequestBody Screenings screening) {
-        // Verificar si el Room existe antes de crear el screening
+        // Verify if the Room exists before creating the screening
         Long roomId = screening.getRoom().getIdRoom();
-
 
         if (!roomService.existsById(roomId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
         }
 
-        if(!movieService.existsById(screening.getMovie().getIdMovie())){
+        if (!movieService.existsById(screening.getMovie().getIdMovie())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested movie wasn't found.");
         }
 
@@ -73,9 +90,13 @@ public class ScreeningsController {
         }
     }
 
-
-
-    // Update an existing screening
+    /**
+     * Updates an existing screening by its ID.
+     *
+     * @param id the ID of the screening to update
+     * @param updatedScreening the updated screening details
+     * @return a ResponseEntity containing the updated screening or an error message
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateScreening(@PathVariable Long id, @RequestBody Screenings updatedScreening) {
         Screenings existingScreening = screeningService.getScreeningById(id);
@@ -83,11 +104,11 @@ public class ScreeningsController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Screening not found.");
         }
 
-        if(!movieService.existsById(updatedScreening.getMovie().getIdMovie())){
+        if (!movieService.existsById(updatedScreening.getMovie().getIdMovie())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested movie wasn't found.");
         }
 
-        if(!roomService.existsById(updatedScreening.getRoom().getIdRoom())){
+        if (!roomService.existsById(updatedScreening.getRoom().getIdRoom())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
         }
 
@@ -102,7 +123,12 @@ public class ScreeningsController {
         return ResponseEntity.ok(updated);
     }
 
-    // Delete a screening
+    /**
+     * Deletes a screening by its ID.
+     *
+     * @param id the ID of the screening to delete
+     * @return a ResponseEntity indicating the result of the deletion
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteScreening(@PathVariable Long id) {
         Screenings screening = screeningService.getScreeningById(id);

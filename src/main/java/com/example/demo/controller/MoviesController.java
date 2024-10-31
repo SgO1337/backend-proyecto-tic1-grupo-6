@@ -4,18 +4,13 @@ import com.example.demo.model.Branches;
 import com.example.demo.model.Movies;
 import com.example.demo.model.Rooms;
 import com.example.demo.service.MoviesService;
-
 import com.example.demo.service.ScreeningService;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
-
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -30,21 +25,31 @@ public class MoviesController {
         this.screeningService = screeningService;
     }
 
-    // List all movies
+    /**
+     * Obtiene la lista completa de películas.
+     * @return ResponseEntity con la lista de todas las películas en formato JSON.
+     */
     @GetMapping
     public ResponseEntity<List<Movies>> listMovies() {
         List<Movies> movies = moviesService.getAllMovies();
         return ResponseEntity.ok(movies);
     }
 
-    // List currently available movies
+    /**
+     * Obtiene la lista de películas actualmente disponibles.
+     * @return ResponseEntity con la lista de películas disponibles en formato JSON.
+     */
     @GetMapping("/currently-available")
     public ResponseEntity<List<Movies>> listAvailableMovies() {
         List<Movies> availableMovies = moviesService.getAllAvailableMovies();
         return ResponseEntity.ok(availableMovies);
     }
 
-    // View a specific movie by ID
+    /**
+     * Obtiene los detalles de una película específica por su ID.
+     * @param id ID de la película a buscar.
+     * @return ResponseEntity con los detalles de la película o un mensaje de error si no se encuentra.
+     */
     @GetMapping("/view/{id}")
     public ResponseEntity<?> viewMovie(@PathVariable Long id) {
         Movies movie = moviesService.getMovieById(id);
@@ -54,10 +59,20 @@ public class MoviesController {
         return ResponseEntity.ok(movie);
     }
 
-    // Create a new movie
+    /**
+     * Crea una nueva película si se proporciona el conjunto de datos completo.
+     * @param movie Objeto Movies con los datos de la película.
+     * @return ResponseEntity con mensaje de éxito si la creación es exitosa o mensaje de error en caso de datos incompletos.
+     */
     @PostMapping("/create")
     public ResponseEntity<String> createMovie(@RequestBody Movies movie) {
-        if (movie.getTitle() == null || movie.getTitle().isEmpty() || movie.getDescription() == null || movie.getDescription().isEmpty() || movie.getGenre() == null || movie.getGenre().isEmpty() || movie.getDuration() == 0 || movie.getDirector() == null || movie.getDirector().isEmpty() || movie.getCasting() == null || movie.getCasting().isEmpty() || movie.getReleaseDate() == null || movie.getLanguagesAvailable() == null || movie.getLanguagesAvailable().isEmpty() || movie.getRating() == null || movie.getRating().isEmpty() || movie.getDistributor() == null || movie.getDistributor().isEmpty() || movie.getDimensionsAvailable() == null || movie.getDimensionsAvailable().isEmpty() || movie.getVerticalPosterBASE64() == null || movie.getVerticalPosterBASE64().isEmpty() || movie.getHorizontalPosterBASE64() == null || movie.getHorizontalPosterBASE64().isEmpty()){
+        if (movie.getTitle() == null || movie.getTitle().isEmpty() || movie.getDescription() == null || movie.getDescription().isEmpty() ||
+                movie.getGenre() == null || movie.getGenre().isEmpty() || movie.getDuration() == 0 || movie.getDirector() == null ||
+                movie.getDirector().isEmpty() || movie.getCasting() == null || movie.getCasting().isEmpty() || movie.getReleaseDate() == null ||
+                movie.getLanguagesAvailable() == null || movie.getLanguagesAvailable().isEmpty() || movie.getRating() == null ||
+                movie.getRating().isEmpty() || movie.getDistributor() == null || movie.getDistributor().isEmpty() || movie.getDimensionsAvailable() == null ||
+                movie.getDimensionsAvailable().isEmpty() || movie.getVerticalPosterBASE64() == null || movie.getVerticalPosterBASE64().isEmpty() ||
+                movie.getHorizontalPosterBASE64() == null || movie.getHorizontalPosterBASE64().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incomplete set of data.");
         }
 
@@ -65,7 +80,12 @@ public class MoviesController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Movie created successfully.");
     }
 
-    // Update an existing movie
+    /**
+     * Actualiza los datos de una película existente.
+     * @param id ID de la película a actualizar.
+     * @param updatedMovie Objeto Movies con los datos actualizados de la película.
+     * @return ResponseEntity con mensaje de éxito si la actualización es exitosa o mensaje de error si no se encuentra la película.
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateMovie(@PathVariable Long id, @RequestBody Movies updatedMovie) {
         Movies existingMovie = moviesService.getMovieById(id);
@@ -73,7 +93,7 @@ public class MoviesController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found.");
         }
 
-        // Update all movie details
+        // Actualiza los detalles de la película
         existingMovie.setTitle(updatedMovie.getTitle());
         existingMovie.setDescription(updatedMovie.getDescription());
         existingMovie.setGenre(updatedMovie.getGenre());
@@ -89,11 +109,19 @@ public class MoviesController {
         existingMovie.setVerticalPosterBASE64(updatedMovie.getVerticalPosterBASE64());
         existingMovie.setHorizontalPosterBASE64(updatedMovie.getHorizontalPosterBASE64());
 
-        // Save the updated movie
+        // Guarda la película actualizada
         moviesService.saveMovie(existingMovie);
         return ResponseEntity.ok("Movie updated successfully.");
     }
 
+    /**
+     * Obtiene las salas disponibles para una película en una sucursal, en una fecha y hora específicas.
+     * @param idMovie ID de la película.
+     * @param idBranch ID de la sucursal.
+     * @param date Fecha de la proyección.
+     * @param screeningTime Hora de la proyección.
+     * @return ResponseEntity con la lista de salas disponibles en formato JSON.
+     */
     @GetMapping("/{idMovie}/branches/{idBranch}/dates/{date}/screening-times/{screeningTime}/get-available-rooms")
     public ResponseEntity<List<Rooms>> getAvailableRooms(
             @PathVariable Long idMovie,
@@ -104,8 +132,11 @@ public class MoviesController {
         return ResponseEntity.ok(availableRooms);
     }
 
-
-    // Delete a movie by ID
+    /**
+     * Elimina una película por su ID.
+     * @param id ID de la película a eliminar.
+     * @return ResponseEntity con mensaje de éxito si la eliminación es exitosa o mensaje de error si no se encuentra la película.
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteMovie(@PathVariable Long id) {
         Movies movie = moviesService.getMovieById(id);
@@ -117,6 +148,11 @@ public class MoviesController {
         return ResponseEntity.ok("Movie deleted successfully.");
     }
 
+    /**
+     * Obtiene las sucursales donde se proyecta una película específica.
+     * @param id ID de la película.
+     * @return ResponseEntity con la lista de sucursales o mensaje de error si no se encuentran sucursales.
+     */
     @GetMapping("/{id}/branches")
     public ResponseEntity<?> getBranchesForMovie(@PathVariable Long id) {
         List<Branches> branches = moviesService.getBranchesForMovie(id);
@@ -125,9 +161,8 @@ public class MoviesController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No branches were found where the movie is being screened.");
         }
 
-        // Transform Branches to BranchLocationDTO
         List<BranchLocationDTO> branchLocations = branches.stream()
-                .map(branch -> new BranchLocationDTO(branch.getIdBranch(), branch.getLocation())) // Populate both id and location
+                .map(branch -> new BranchLocationDTO(branch.getIdBranch(), branch.getLocation())) // Mapea id y ubicación
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(branchLocations);
@@ -142,7 +177,7 @@ public class MoviesController {
             this.location = location;
         }
 
-        // Getters and Setters
+        // Getters y Setters
         public Long getBranchId() {
             return branchId;
         }
@@ -160,7 +195,12 @@ public class MoviesController {
         }
     }
 
-    // Endpoint to get all screening dates for a specific movie at a specific branch
+    /**
+     * Obtiene todas las fechas de proyección para una película específica en una sucursal específica.
+     * @param movieId ID de la película.
+     * @param branchId ID de la sucursal.
+     * @return ResponseEntity con la lista de fechas de proyección o mensaje de error si no hay fechas.
+     */
     @GetMapping("/{movieId}/branches/{branchId}/screening-dates")
     public ResponseEntity<List<String>> getScreeningDatesForMovieAtBranch(
             @PathVariable Long movieId,
@@ -174,7 +214,13 @@ public class MoviesController {
         return ResponseEntity.ok(screeningDates);
     }
 
-    // Endpoint to get all screening times for a specific movie at a specific branch and date
+    /**
+     * Obtiene todas las horas de proyección para una película en una sucursal y fecha específicas.
+     * @param movieId ID de la película.
+     * @param branchId ID de la sucursal.
+     * @param date Fecha de la proyección.
+     * @return ResponseEntity con la lista de horarios de proyección o mensaje de error si no hay horarios.
+     */
     @GetMapping("/{movieId}/branches/{branchId}/dates/{date}/screening-times")
     public ResponseEntity<List<String>> getScreeningTimesForMovieBranchAndDate(
             @PathVariable Long movieId,
@@ -189,7 +235,11 @@ public class MoviesController {
         return ResponseEntity.ok(screeningTimes);
     }
 
-    // Endpoint to get the unique screening ID for a specific movie, date, time, and branch from a JSON body
+    /**
+     * Obtiene el ID único de proyección para una película, fecha, hora y sucursal específicos desde un cuerpo JSON.
+     * @param screeningRequest Objeto ScreeningRequestDTO con los datos para obtener el ID de proyección.
+     * @return ResponseEntity con el ID de proyección en formato JSON.
+     */
     @PostMapping("/get-screening-from-cascade-dropdown")
     public ResponseEntity<?> getScreeningId(@RequestBody ScreeningRequestDTO screeningRequest) {
         Long screeningId = moviesService.getScreeningId(
@@ -200,9 +250,6 @@ public class MoviesController {
                 screeningRequest.getRoomId()
         );
 
-        //no requiere validacion porque nunca estaria vacio en caso de uso normal, a menos que inspeccionen elemento y rompan la pagina
-
-        // Create the response DTO
         ScreeningIdResponseDTO response = new ScreeningIdResponseDTO(screeningId);
 
         return ResponseEntity.ok(response);
@@ -223,7 +270,7 @@ public class MoviesController {
             this.roomId = roomId;
         }
 
-        // Getters and Setters
+        // Getters y Setters
         public Long getMovieId() {
             return movieId;
         }
@@ -273,5 +320,4 @@ public class MoviesController {
         }
     }
 }
-
 

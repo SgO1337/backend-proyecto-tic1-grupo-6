@@ -10,7 +10,7 @@ public class OrderFood {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "food_id", nullable = false) // Foreign key to Food
+    @JoinColumn(name = "idFood") // Foreign key to Food
     private Food food;
 
     private int quantity;

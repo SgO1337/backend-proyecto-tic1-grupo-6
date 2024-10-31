@@ -2,13 +2,17 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Orders;
 import com.example.demo.service.OrdersService;
-import org.springframework.context.annotation.Profile;
+import com.example.demo.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.service.UserService;
+
 import java.util.List;
 
+/**
+ * OrdersController is a REST controller that manages order-related operations.
+ * It provides endpoints for creating, listing, viewing, updating, and deleting orders.
+ */
 @RestController
 @RequestMapping("/api/orders")
 //@CrossOrigin(origins = "http://localhost:3000")
@@ -22,9 +26,14 @@ public class OrdersController {
         this.userService = userService;
     }
 
+    /**
+     * Creates a new order.
+     *
+     * @param order the order details to create
+     * @return a ResponseEntity containing the created order or an error message
+     */
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody Orders order) {
-        // Set default values if necessary
         if (order.getCancelled() == null) {
             order.setCancelled(false);
         }
@@ -33,22 +42,30 @@ public class OrdersController {
         }
 
         if (!userService.existsById(order.getUserId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user who supposedly placed the order does not exist"); // Return 404 Not Found pero no se por que no me deja que el response entity devuelva un tipo genérico
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user who supposedly placed the order does not exist");
         }
 
         Orders createdOrder = ordersService.saveOrder(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
-
-    // Get a list of all orders
+    /**
+     * Gets a list of all orders.
+     *
+     * @return a ResponseEntity containing a list of orders
+     */
     @GetMapping
     public ResponseEntity<List<Orders>> listOrders() {
         List<Orders> ordersList = ordersService.getAllOrders();
         return ResponseEntity.ok(ordersList);
     }
 
-    // Get a specific order by its ID
+    /**
+     * Gets a specific order by its ID.
+     *
+     * @param id the ID of the order to retrieve
+     * @return a ResponseEntity containing the order or a 404 Not Found response
+     */
     @GetMapping("/view/{id}")
     public ResponseEntity<Orders> getOrderById(@PathVariable Long id) {
         Orders order = ordersService.getOrderById(id);
@@ -58,14 +75,20 @@ public class OrdersController {
         return ResponseEntity.ok(order);
     }
 
-    // Update an existing order
+    /**
+     * Updates an existing order.
+     *
+     * @param id the ID of the order to update
+     * @param updatedOrder the updated order details
+     * @return a ResponseEntity containing the updated order or an error message
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody Orders updatedOrder) {
-        Orders order = ordersService.updateOrder(id, updatedOrder);
-
         if (!userService.existsById(updatedOrder.getUserId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user who supposedly placed the order does not exist"); // Return 404 Not Found pero no se por que no me deja que el response entity devuelva un tipo genérico
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user who supposedly placed the order does not exist");
         }
+
+        Orders order = ordersService.updateOrder(id, updatedOrder);
 
         if (order == null) {
             return ResponseEntity.notFound().build();
@@ -73,7 +96,12 @@ public class OrdersController {
         return ResponseEntity.ok(order);
     }
 
-    // Delete an order
+    /**
+     * Deletes an order by its ID.
+     *
+     * @param id the ID of the order to delete
+     * @return a ResponseEntity with no content on success
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         ordersService.deleteOrder(id);

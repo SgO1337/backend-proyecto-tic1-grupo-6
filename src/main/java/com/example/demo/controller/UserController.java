@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Users;
 import com.example.demo.service.UserService;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * UserController is a REST controller that handles requests related to user management.
+ * It provides endpoints for creating, viewing, updating, and deleting users.
+ */
 @RestController  // RestController for JSON responses
 @RequestMapping("/api/users")
 //@CrossOrigin(origins = "http://localhost:3000")
@@ -17,20 +20,34 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Constructs a UserController with the specified UserService.
+     *
+     * @param userService the UserService to be used by this controller
+     */
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    // List all users
+    /**
+     * Lists all users.
+     *
+     * @return a ResponseEntity containing the list of users and a 200 OK status
+     */
     @GetMapping
     public ResponseEntity<List<Users>> listUsers() {
         List<Users> usersList = userService.getAllUsers();
         return ResponseEntity.ok(usersList);  // Return list of users with 200 OK
     }
 
-    //creacion de usuarios es por registro
+    // Creation of users is done through registration.
 
-    // View a specific user by ID
+    /**
+     * Views a specific user by their ID.
+     *
+     * @param id the ID of the user to be viewed
+     * @return a ResponseEntity containing the user if found, or a 404 Not Found status if not
+     */
     @GetMapping("/view/{id}")
     public ResponseEntity<Users> viewUser(@PathVariable Long id) {
         Users user = userService.getUserById(id);
@@ -40,6 +57,13 @@ public class UserController {
         return ResponseEntity.ok(user);  // Return the user with 200 OK
     }
 
+    /**
+     * Updates an existing user by their ID.
+     *
+     * @param id the ID of the user to be updated
+     * @param updatedUser the updated user data
+     * @return a ResponseEntity indicating the outcome of the update operation
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody Users updatedUser) {
         Users existingUser = userService.getUserById(id);
@@ -69,7 +93,12 @@ public class UserController {
         return ResponseEntity.ok("User updated successfully.");  // Return 200 OK
     }
 
-    // Delete a user
+    /**
+     * Deletes a user by their ID.
+     *
+     * @param id the ID of the user to be deleted
+     * @return a ResponseEntity indicating the outcome of the delete operation
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         if (userService.getUserById(id) == null) {  // Check if user exists before deletion
@@ -79,7 +108,12 @@ public class UserController {
         return ResponseEntity.noContent().build();  // Return 204 No Content after deletion
     }
 
-
+    /**
+     * Creates a new user.
+     *
+     * @param user the user data to be created
+     * @return a ResponseEntity containing the created user and a 201 Created status
+     */
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody Users user) {
         // Set default values if necessary

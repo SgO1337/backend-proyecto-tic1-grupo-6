@@ -13,11 +13,9 @@ public class Orders {
 
     private Long userId;
 
-    @Column(nullable = false)
-    private Boolean cancelled = false; // Default value
+    private Boolean cancelled;
 
-    @Column(nullable = false)
-    private Boolean delivered = false; // Default value
+    private Boolean delivered;
 
     private Date date;
 

@@ -15,13 +15,11 @@ import com.example.demo.service.SeatsService;
 import com.example.demo.service.ScreeningService;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/booking-screening")
 public class BookingScreeningController {
 
     private final BookingScreeningService bookingScreeningService;
-
     private final SeatsService seatService;
     private final UserService userService;
     private final ScreeningService screeningService;
@@ -33,11 +31,20 @@ public class BookingScreeningController {
         this.screeningService = screeningService;
     }
 
+    /**
+     * Obtiene la lista completa de reservas de screenings.
+     * @return Lista de todas las reservas de screenings.
+     */
     @GetMapping
     public List<BookingScreenings> getBookingScreening() {
         return bookingScreeningService.getAllBookingScreenings();
     }
 
+    /**
+     * Busca y obtiene una reserva de screening por su ID.
+     * @param id ID de la reserva de screening a buscar.
+     * @return ResponseEntity con la reserva si se encuentra o un mensaje de error si no existe.
+     */
     @GetMapping("/view/{id}")
     public ResponseEntity<?> getBookingScreeningById(@PathVariable Long id) {
         BookingScreenings bookingScreening = bookingScreeningService.getBookingScreeningById(id);
@@ -47,6 +54,11 @@ public class BookingScreeningController {
         return ResponseEntity.ok(bookingScreening);
     }
 
+    /**
+     * Crea una nueva reserva de screening si el usuario y el screening existen y si los asientos no están reservados.
+     * @param bookingScreenings Objeto BookingScreenings con la información de la reserva.
+     * @return ResponseEntity con mensaje de éxito si la creación es exitosa o mensaje de error en caso contrario.
+     */
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<?> createBookingScreening(@RequestBody BookingScreenings bookingScreenings) {
@@ -90,9 +102,11 @@ public class BookingScreeningController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Booking Screening created successfully.");
     }
 
-
-
-
+    /**
+     * Elimina una reserva de screening y todos los asientos asociados.
+     * @param id ID de la reserva de screening a eliminar.
+     * @return ResponseEntity con mensaje de éxito si la eliminación es exitosa o mensaje de error si la reserva no existe.
+     */
     @DeleteMapping("/delete/{id}")
     @Transactional
     public ResponseEntity<?> deleteBookingScreeningById(@PathVariable Long id) {
@@ -110,7 +124,5 @@ public class BookingScreeningController {
         return ResponseEntity.ok("Booking Screening and associated seats deleted successfully.");
     }
 
-    //NO SE PUEDE MODIFICAR UN BOOKINGSCRENEING PORQUE SERIA MUY COMPLICADO, PREGUNTARLE A ROLO SI PRETENDE AGREGARLO
+    //NO SE PUEDE MODIFICAR UN BOOKINGSCREENING PORQUE SERIA MUY COMPLICADO, PREGUNTARLE A ROLO SI PRETENDE AGREGARLO
 }
-
-
