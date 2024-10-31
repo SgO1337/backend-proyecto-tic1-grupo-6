@@ -22,33 +22,20 @@ public class AuthService {
 
         if (UserssOpt.isPresent()) {
             Users Userss = UserssOpt.get();
-            String hashedPassword = hashPassword(password);
 
             // Comparar la contraseña cifrada
-            return Userss.getPassword().equals(hashedPassword);
+            return Userss.getPassword().equals(password);
         }
         return false;
     }
 
-    public String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-        StringBuilder hexString = new StringBuilder();
 
-        for (byte b : encodedHash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-
-        return hexString.toString();
-    }
 
     public void registerUser(String email, String password,String name, Integer ci, Integer age, String surname, String role) throws NoSuchAlgorithmException {
-        String hashedPassword = hashPassword(password);
+
         Users newUser = new Users();
         newUser.setEmail(email);
-        newUser.setPassword(hashedPassword);
+        newUser.setPassword(password);
         newUser.setName(name);
         newUser.setCI(ci);
         newUser.setRole(role);

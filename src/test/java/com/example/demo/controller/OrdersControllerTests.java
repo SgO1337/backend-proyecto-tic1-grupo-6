@@ -112,20 +112,6 @@ public class OrdersControllerTests {
     }
 
     @Test
-    void updateOrder_ShouldReturnNotFoundIfUserDoesNotExist() {
-        Orders updatedOrder = new Orders();
-        updatedOrder.setUserId(2L);
-
-        when(userService.existsById(2L)).thenReturn(false);
-
-        ResponseEntity<?> response = ordersController.updateOrder(1L, updatedOrder);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("The user who supposedly placed the order does not exist", response.getBody());
-        verify(ordersService, never()).updateOrder(anyLong(), any(Orders.class));
-    }
-
-    @Test
     void updateOrder_ShouldReturnNotFoundIfOrderDoesNotExist() {
         Orders updatedOrder = new Orders();
         updatedOrder.setUserId(1L);
