@@ -17,7 +17,9 @@ FROM openjdk:21-jdk
 WORKDIR /app
 VOLUME /tmp
 
-# Copy the JAR file from the build stage
-COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Copy the JAR file from the build stage and rename it to app.jar
+COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /app/app.jar
+
+# Start the application
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
 EXPOSE 9090
