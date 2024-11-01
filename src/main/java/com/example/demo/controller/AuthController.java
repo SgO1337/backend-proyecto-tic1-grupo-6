@@ -55,6 +55,7 @@ public class AuthController {
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("message", "Login successful.");
             responseBody.put("userId", userId); // Include userId in the response
+            responseBody.put("authToken", token);
 
             return ResponseEntity.ok(responseBody);
         } else {

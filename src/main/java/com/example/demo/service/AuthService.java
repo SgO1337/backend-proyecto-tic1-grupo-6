@@ -19,11 +19,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class AuthService {
 
     @Autowired
-    private UserRepository UserRepository;
+    private UserRepository userRepository;
 
 
     public boolean authenticate(String email, String password) {
-        Optional<Users> userOpt = UserRepository.findByEmail(email);
+        Optional<Users> userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isPresent()) {
             Users user = userOpt.get();
@@ -46,7 +46,7 @@ public class AuthService {
 
     public void registerUser(String email, String password, String name, Integer ci, Integer age, String surname, String role) {
         // Check if the email is already registered
-        if (UserRepository.findByEmail(email).isPresent()) {
+        if (userRepository.findByEmail(email).isPresent()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Email already registered");
         }
 
@@ -59,7 +59,7 @@ public class AuthService {
         newUser.setRole(role);
         newUser.setAge(age);
         newUser.setSurname(surname);
-        UserRepository.save(newUser);
+        userRepository.save(newUser);
     }
 
 }
