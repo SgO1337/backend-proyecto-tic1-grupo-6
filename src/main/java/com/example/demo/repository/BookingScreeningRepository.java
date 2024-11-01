@@ -13,4 +13,8 @@ public interface BookingScreeningRepository extends JpaRepository<BookingScreeni
 
     @Query("SELECT Seats FROM BookingScreenings s WHERE s.idBookingScreening = :idBookingScreening")
     List<Seats> findAllBookingSeats(@Param("idBookingScreening") Long idBookingScreening);
+
+    @Query("SELECT s FROM BookingScreenings s JOIN s.user u WHERE u.idUser = :idUser")
+    List<BookingScreenings> getBookingScreeningByUserId(@Param("idUser") Long idUser);
+
 }

@@ -3,15 +3,22 @@ package com.example.demo.controller;
 import com.example.demo.model.Users;
 import com.example.demo.repository.AuthRepository;
 import com.example.demo.service.AuthService;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
-//@CrossOrigin(origins = "http://localhost:3000")
-
 public class AuthController {
 
     @Autowired
@@ -21,65 +28,70 @@ public class AuthController {
     private AuthRepository authRepository;
 
     /**
-     * Autentica al usuario con las credenciales proporcionadas en el request.
-     * @param request Objeto LoginRequest con los campos de email y password.
-     * @return ResponseEntity con un mensaje de éxito en caso de autenticación exitosa,
-     *         o un mensaje de error con código 401 si las credenciales no son válidas.
-     * @throws Exception en caso de un error de autenticación.
+     * Authenticates the user with the provided credentials in the request.
+     * @param request Object containing email and password.
+     * @param response HttpServletResponse to set the cookie with the token.
+     * @return ResponseEntity with a success message or an error message.
+     * @throws Exception in case of authentication error.
      */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) throws Exception {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletResponse response) throws Exception {
         boolean isAuthenticated = authService.authenticate(request.getEmail(), request.getPassword());
 
         if (isAuthenticated) {
-            return ResponseEntity.ok("Login exitoso.");
+            // Fetch the user ID from your database (this is an example; adjust as needed)
+            Long userId = authRepository.findByEmail(request.getEmail()).get().getIdUser();
+            String token = generateToken(userId.toString());
+
+            // Set the token in an HttpOnly cookie
+            Cookie cookie = new Cookie("SESSIONID", token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true); // Set to true if using HTTPS
+            cookie.setPath("/");
+            cookie.setMaxAge(86400); // 1 day expiration
+            response.addCookie(cookie);
+
+            // Create response body with message and user ID
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("message", "Login successful.");
+            responseBody.put("userId", userId); // Include userId in the response
+
+            return ResponseEntity.ok(responseBody);
         } else {
-            return ResponseEntity.status(401).body("Email o contraseña incorrectos.");
+            return ResponseEntity.status(401).body(Map.of("message", "Invalid email or password."));
         }
+    }
+
+    // Token generation method
+    private String generateToken(String userId) {
+        return JWT.create()
+                .withSubject(userId)
+                .withExpiresAt(new Date(System.currentTimeMillis() + 86400000)) // 1 day expiration
+                .sign(Algorithm.HMAC256("your_secret_key")); // Use a strong secret key
     }
 
     public static class LoginRequest {
         @NotNull
         private String email;
-
         private String password;
 
-        // Getters y setters
-
-        /**
-         * Obtiene el email del usuario.
-         * @return email del usuario.
-         */
+        // Getters and setters
         public String getEmail() {
             return email;
         }
-
-        /**
-         * Establece el email del usuario.
-         * @param email email del usuario.
-         */
         public void setEmail(String email) {
             this.email = email;
         }
-
-        /**
-         * Obtiene la contraseña del usuario.
-         * @return password del usuario.
-         */
         public String getPassword() {
             return password;
         }
-
-        /**
-         * Establece la contraseña del usuario.
-         * @param password contraseña del usuario.
-         */
         public void setPassword(String password) {
             this.password = password;
         }
     }
 
-    /**
+
+/**
      * Registra un nuevo usuario en el sistema con la información proporcionada.
      * @param request Objeto Users que contiene los datos necesarios para el registro.
      * @return ResponseEntity con un mensaje de éxito en caso de registro exitoso,

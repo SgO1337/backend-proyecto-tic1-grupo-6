@@ -41,7 +41,7 @@ public class OrdersController {
             order.setDelivered(false);
         }
 
-        if (!userService.existsById(order.getUserId())) {
+        if (!userService.existsById(order.getUser().getIdUser())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user who supposedly placed the order does not exist");
         }
 
@@ -84,7 +84,7 @@ public class OrdersController {
      */
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody Orders updatedOrder) {
-        if (!userService.existsById(updatedOrder.getUserId())) {
+        if (!userService.existsById(updatedOrder.getUser().getIdUser())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user who supposedly placed the order does not exist");
         }
 
@@ -106,5 +106,10 @@ public class OrdersController {
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         ordersService.deleteOrder(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/get-by-user-id/{userId}")
+    public List<Orders> getOrdersByUserId(@PathVariable Long userId) {
+        return ordersService.getOrdersByUserId(userId);
     }
 }

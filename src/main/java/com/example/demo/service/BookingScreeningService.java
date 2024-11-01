@@ -17,6 +17,10 @@ public class BookingScreeningService {
         this.bookingScreeningRepository = bookingScreeningRepository;
     }
 
+    public List<BookingScreenings> getBookingScreeningByUserId(Long id) {
+        return bookingScreeningRepository.getBookingScreeningByUserId(id);
+    }
+
     @Transactional
     public BookingScreenings saveBookingScreening(BookingScreenings bookingScreenings){
         return  bookingScreeningRepository.save(bookingScreenings);

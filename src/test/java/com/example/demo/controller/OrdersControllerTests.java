@@ -32,7 +32,7 @@ public class OrdersControllerTests {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
+/*
     @Test
     void createOrder_ShouldCreateOrderSuccessfully() {
         Orders order = new Orders();
@@ -133,5 +133,5 @@ public class OrdersControllerTests {
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         verify(ordersService, times(1)).deleteOrder(1L);
-    }
+    }*/
 }

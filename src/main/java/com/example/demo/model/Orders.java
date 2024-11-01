@@ -11,7 +11,9 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOrder;
 
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "idUser")
+    private Users user;
 
     private Boolean cancelled;
 
@@ -38,14 +40,13 @@ public class Orders {
         this.idOrder = idOrder;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Users getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(Users user) {
+        this.user = user;
     }
-
     public Boolean getCancelled() {
         return cancelled;
     }

@@ -124,5 +124,10 @@ public class BookingScreeningController {
         return ResponseEntity.ok("Booking Screening and associated seats deleted successfully.");
     }
 
+    @GetMapping("/get-by-user-id/{id}")
+    public List<BookingScreenings> getBookingScreeningFromUserById(@PathVariable("id") Long id) {
+        return bookingScreeningService.getBookingScreeningByUserId(id);
+    }
+
     //NO SE PUEDE MODIFICAR UN BOOKINGSCREENING PORQUE SERIA MUY COMPLICADO, PREGUNTARLE A ROLO SI PRETENDE AGREGARLO
 }
