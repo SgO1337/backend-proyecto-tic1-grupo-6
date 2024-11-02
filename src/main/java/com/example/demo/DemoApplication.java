@@ -18,10 +18,20 @@ import java.io.IOException;
 public class DemoApplication {
 
     public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.load();
+        //Esto es para desarrollo, .env local
+        /*Dotenv dotenv = Dotenv.load();
         System.setProperty("DB_URL", dotenv.get("DB_URL"));
         System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
-        System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
+        System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));*/
+
+        //Esto es para prod
+        String dbUrl = System.getenv("DB_URL");
+        String dbUsername = System.getenv("DB_USERNAME");
+        String dbPassword = System.getenv("DB_PASSWORD");
+        System.setProperty("DB_URL", dbUrl);
+        System.setProperty("DB_USERNAME", dbUsername);
+        System.setProperty("DB_PASSWORD", dbPassword);
+        //
 
         SpringApplication.run(DemoApplication.class, args);
     }
