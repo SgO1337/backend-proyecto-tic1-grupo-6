@@ -12,7 +12,7 @@ public class Orders {
     private Long idOrder;
 
     @ManyToOne
-    @JoinColumn(name = "idUser")
+    @JoinColumn(name = "idUser", referencedColumnName = "idUser") // Ensure this matches your Users entity
     private Users user;
 
     private Boolean cancelled;

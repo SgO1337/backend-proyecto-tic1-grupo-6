@@ -10,12 +10,14 @@ public class OrderFood {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "idFood") // Foreign key to Food
+    @JoinColumn(name = "idFood", referencedColumnName = "idFood") // Ensure this matches your Users entity
     private Food food;
 
     private int quantity;
+
+
 
     // Getters and Setters
     public Long getId() {
