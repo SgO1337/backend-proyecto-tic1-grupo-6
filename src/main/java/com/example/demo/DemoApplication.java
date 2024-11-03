@@ -19,10 +19,12 @@ public class DemoApplication {
 
     public static void main(String[] args) {
         //Esto es para desarrollo, .env local
-        /*Dotenv dotenv = Dotenv.load();
+        /*
+        Dotenv dotenv = Dotenv.load();
         System.setProperty("DB_URL", dotenv.get("DB_URL"));
         System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
-        System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));*/
+        System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
+        */
 
         //Esto es para prod
         String dbUrl = System.getenv("DB_URL");
