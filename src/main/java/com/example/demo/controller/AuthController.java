@@ -63,7 +63,13 @@ public class AuthController {
         }
     }
 
-    // Token generation method
+    // Método de generación de token
+    /**
+     * Genera un token JWT para el usuario autenticado.
+     * @param userId El ID del usuario para quien se genera el token.
+     * @return Un token JWT firmado con una expiración de 1 día.
+     */
+
     private String generateToken(String userId) {
         return JWT.create()
                 .withSubject(userId)
@@ -71,6 +77,11 @@ public class AuthController {
                 .sign(Algorithm.HMAC256("your_secret_key")); // Use a strong secret key
     }
 
+    // Clase anidada LoginRequest
+    /**
+     * Clase interna que representa el cuerpo de la solicitud de inicio de sesión.
+     * Contiene los campos de email y contraseña del usuario.
+     */
     public static class LoginRequest {
         @NotNull
         private String email;

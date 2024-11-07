@@ -124,6 +124,11 @@ public class BookingScreeningController {
         return ResponseEntity.ok("Booking Screening and associated seats deleted successfully.");
     }
 
+    /**
+     * Obtiene una lista de reservas de proyecciones (BookingScreenings) asociadas a un usuario específico.
+     * @param id El ID del usuario para el cual se desea obtener las reservas.
+     * @return Una lista de objetos BookingScreenings que representan las reservas de proyecciones realizadas por el usuario.
+     */
     @GetMapping("/get-by-user-id/{id}")
     public List<BookingScreenings> getBookingScreeningFromUserById(@PathVariable("id") Long id) {
         return bookingScreeningService.getBookingScreeningByUserId(id);

@@ -108,6 +108,9 @@ public class OrdersController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Gets a list of orders by user i* @return a List<Orders> by a parameter userId
+     */
     @GetMapping("/get-by-user-id/{userId}")
     public List<Orders> getOrdersByUserId(@PathVariable Long userId) {
         return ordersService.getOrdersByUserId(userId);

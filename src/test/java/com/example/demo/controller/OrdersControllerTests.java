@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Orders;
+import com.example.demo.model.Users;
 import com.example.demo.service.OrdersService;
 import com.example.demo.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class OrdersControllerTests {
@@ -28,16 +30,24 @@ public class OrdersControllerTests {
     @InjectMocks
     private OrdersController ordersController;
 
+    private Orders order;
+    private Users user;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        user = new Users();
+        user.setIdUser(1L);
+
+        order = new Orders();
+        order.setUser(user);
+        order.setCancelled(false);
+        order.setDelivered(false);
     }
-/*
+
     @Test
     void createOrder_ShouldCreateOrderSuccessfully() {
-        Orders order = new Orders();
-        order.setUserId(1L);
-
         when(userService.existsById(1L)).thenReturn(true);
         when(ordersService.saveOrder(order)).thenReturn(order);
 
@@ -50,10 +60,7 @@ public class OrdersControllerTests {
 
     @Test
     void createOrder_ShouldReturnNotFoundIfUserDoesNotExist() {
-        Orders order = new Orders();
-        order.setUserId(2L);
-
-        when(userService.existsById(2L)).thenReturn(false);
+        when(userService.existsById(1L)).thenReturn(false);
 
         ResponseEntity<?> response = ordersController.createOrder(order);
 
@@ -64,7 +71,6 @@ public class OrdersControllerTests {
 
     @Test
     void listOrders_ShouldReturnListOfOrders() {
-        Orders order = new Orders();
         when(ordersService.getAllOrders()).thenReturn(Arrays.asList(order));
 
         ResponseEntity<List<Orders>> response = ordersController.listOrders();
@@ -76,7 +82,6 @@ public class OrdersControllerTests {
 
     @Test
     void getOrderById_ShouldReturnOrderIfExists() {
-        Orders order = new Orders();
         when(ordersService.getOrderById(1L)).thenReturn(order);
 
         ResponseEntity<Orders> response = ordersController.getOrderById(1L);
@@ -96,10 +101,8 @@ public class OrdersControllerTests {
 
     @Test
     void updateOrder_ShouldUpdateOrderSuccessfully() {
-        Orders existingOrder = new Orders();
-        existingOrder.setUserId(1L);
         Orders updatedOrder = new Orders();
-        updatedOrder.setUserId(1L);
+        updatedOrder.setUser(user);
 
         when(userService.existsById(1L)).thenReturn(true);
         when(ordersService.updateOrder(1L, updatedOrder)).thenReturn(updatedOrder);
@@ -114,7 +117,7 @@ public class OrdersControllerTests {
     @Test
     void updateOrder_ShouldReturnNotFoundIfOrderDoesNotExist() {
         Orders updatedOrder = new Orders();
-        updatedOrder.setUserId(1L);
+        updatedOrder.setUser(user);
 
         when(userService.existsById(1L)).thenReturn(true);
         when(ordersService.updateOrder(1L, updatedOrder)).thenReturn(null);
@@ -133,5 +136,16 @@ public class OrdersControllerTests {
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         verify(ordersService, times(1)).deleteOrder(1L);
-    }*/
+    }
+
+    @Test
+    void getOrdersByUserId_ShouldReturnOrdersForUser() {
+        when(ordersService.getOrdersByUserId(1L)).thenReturn(Arrays.asList(order));
+
+        List<Orders> response = ordersController.getOrdersByUserId(1L);
+
+        assertEquals(1, response.size());
+        assertEquals(order, response.get(0));
+        verify(ordersService, times(1)).getOrdersByUserId(1L);
+    }
 }
