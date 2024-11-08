@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "199c127d-d886-4c61-910b-77ae517a6662",
+		"name": "Orders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38468413",
+		"_collection_link": "https://proyecto-tic-1.postman.co/workspace/Proyecto-TIC-1-Workspace~db9d4399-5ac0-4464-8016-4687fe80b6ee/collection/38468413-199c127d-d886-4c61-910b-77ae517a6662?action=share&source=collection_link&creator=38468413"
+	},
+	"item": [
+		{
+			"name": "api/orders/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": {\r\n    \"idUser\" : \"13\"\r\n  },\r\n  \"cancelled\": false,\r\n  \"delivered\": false,\r\n  \"date\": \"2024-11-02\",\r\n  \"orderFood\": [\r\n    {\r\n      \"food\": {\r\n        \"idFood\": 1\r\n      },\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/orders/create",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"orders",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/orders",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/orders/view/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/orders/view/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"orders",
+						"view",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/orders/view/{id} Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/orders/view/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"orders",
+						"view",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/orders/update/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userId\": 1,\r\n  \"cancelled\": false,\r\n  \"delivered\": true,\r\n  \"date\": \"2024-10-12\",\r\n  \"orderFood\": [\r\n    {\r\n      \"food\": {\r\n        \"idFood\": 1\r\n      },\r\n      \"quantity\": 3\r\n    },\r\n    {\r\n      \"food\": {\r\n        \"idFood\": 2\r\n      },\r\n      \"quantity\": 5\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/orders/update/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"orders",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/orders/delete/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/orders/delete/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"orders",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

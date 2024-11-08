@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "848c32b2-bc72-4ab8-9e8f-5ecee14f6755",
+		"name": "Screenings",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38468413",
+		"_collection_link": "https://proyecto-tic-1.postman.co/workspace/Proyecto-TIC-1-Workspace~db9d4399-5ac0-4464-8016-4687fe80b6ee/collection/38468413-848c32b2-bc72-4ab8-9e8f-5ecee14f6755?action=share&source=collection_link&creator=38468413"
+	},
+	"item": [
+		{
+			"name": "api/screenings/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"date\": \"2024-10-15\",\r\n    \"time\": \"21:00:00\",\r\n    \"language\": \"Spanish\",\r\n    \"subtitles\": \"English\",\r\n    \"movie\": {\r\n        \"idMovie\": 1\r\n    },\r\n    \"room\": {\r\n        \"idRoom\": 5\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/screenings/create",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"screenings",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/screenings",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/screenings",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"screenings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/screenings/view/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/screenings",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"screenings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/screenings/update/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"date\": \"2024-10-15\",\r\n    \"time\": \"21:00:00\",\r\n    \"language\": \"English\",\r\n    \"subtitles\": \"Spanish\",\r\n    \"movie\": {\r\n        \"idMovie\": 7\r\n    },\r\n    \"room\": {\r\n        \"idRoom\": 3\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/screenings/update/2",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"screenings",
+						"update",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/screenings/delete/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/screenings/delete/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"screenings",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

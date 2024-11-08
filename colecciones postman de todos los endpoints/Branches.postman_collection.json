@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "756171b9-eb2c-4c0c-9e9b-75dc5cb18ee0",
+		"name": "Branches",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38468413",
+		"_collection_link": "https://proyecto-tic-1.postman.co/workspace/Proyecto-TIC-1-Workspace~db9d4399-5ac0-4464-8016-4687fe80b6ee/collection/38468413-756171b9-eb2c-4c0c-9e9b-75dc5cb18ee0?action=share&source=collection_link&creator=38468413"
+	},
+	"item": [
+		{
+			"name": "api/branches/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"location\": \"Costa Urbana\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/branches/create",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"branches",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/branches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/movies/view/7",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"view",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/branches/view/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/branches/view/4",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"branches",
+						"view",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/branches/update/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"location\": \"Costa Urbanadawdawddwa\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/branches/update/4",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"branches",
+						"update",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/branches/delete/{id} Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/branches/delete/4",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"branches",
+						"delete",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

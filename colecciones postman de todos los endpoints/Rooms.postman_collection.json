@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "b525fe6c-eb60-4165-8623-c6e05df7e54c",
+		"name": "Rooms",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38468413",
+		"_collection_link": "https://proyecto-tic-1.postman.co/workspace/Proyecto-TIC-1-Workspace~db9d4399-5ac0-4464-8016-4687fe80b6ee/collection/38468413-b525fe6c-eb60-4165-8623-c6e05df7e54c?action=share&source=collection_link&creator=38468413"
+	},
+	"item": [
+		{
+			"name": "api/rooms/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"roomName\": \"Room 3\",\r\n    \"description\": \"Second to the left\",\r\n    \"branch\": {\r\n        \"idBranch\": 3\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/rooms/create",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"rooms",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/rooms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/rooms",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/rooms/view/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/rooms/view/8",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"rooms",
+						"view",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/rooms/update/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"roomName\": \"Room 3\",\r\n    \"description\": \"Second to the left\",\r\n    \"branch\": {\r\n        \"idBranch\": 3\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/rooms/update/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"rooms",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete de rooms no deberia devolver true, cambiar despues",
+			"request": {
+				"method": "INFO",
+				"header": [],
+				"url": {
+					"raw": "ignorar",
+					"host": [
+						"ignorar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/rooms/delete/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/rooms/delete/9",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"rooms",
+						"delete",
+						"9"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

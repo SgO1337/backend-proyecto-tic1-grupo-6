@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "761def5e-7398-427a-840b-74dd43d799e5",
+		"name": "Movies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38468413",
+		"_collection_link": "https://proyecto-tic-1.postman.co/workspace/Proyecto-TIC-1-Workspace~db9d4399-5ac0-4464-8016-4687fe80b6ee/collection/38468413-761def5e-7398-427a-840b-74dd43d799e5?action=share&source=collection_link&creator=38468413"
+	},
+	"item": [
+		{
+			"name": "api/movies/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Inception\",\r\n    \"description\": \"A thief who enters the dreams of others to steal valuable secrets faces his toughest job yet: inception.\",\r\n    \"genre\": \"Science Fiction\",\r\n    \"duration\": 148,\r\n    \"director\": \"Christopher Nolan\",\r\n    \"casting\": \"Leonardo DiCaprio, Tom Hardy, Joseph Gordon-Levitt\",\r\n    \"releaseDate\": \"2010-07-16\",\r\n    \"languagesAvailable\": [\"English\", \"Japanese\", \"Spanish\"],\r\n    \"rating\": \"PG-13\",\r\n    \"available\": true,\r\n    \"distributor\": \"Warner Bros.\",\r\n    \"dimensionsAvailable\": [\"2D\", \"IMAX\"],\r\n    \"verticalPosterBASE64\": \"pqr\",\r\n    \"horizontalPosterBASE64\": \"idem verticalPosterBASE64\"\r\n}\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/movies/create",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/movies",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/view/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/movies/view/7",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"view",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/update/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Interstellar\",\r\n    \"description\": \"A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.\",\r\n    \"genre\": \"Science Fiction\",\r\n    \"duration\": 169,\r\n    \"director\": \"Christopher Nolan\",\r\n    \"casting\": \"Matthew McConaughey, Anne Hathaway, Jessica Chastain\",\r\n    \"releaseDate\": \"2014-11-07\",\r\n    \"languagesAvailable\": [\"English\", \"German\", \"French\"],\r\n    \"rating\": \"PG-13\",\r\n    \"available\": true,\r\n    \"distributor\": \"Paramount Pictures\",\r\n    \"dimensionsAvailable\": [\"2D\", \"IMAX\"],\r\n    \"verticalPosterBASE64\": \"xyz\",\r\n    \"horizontalPosterBASE64\": \"idem verticalPosterBASE64\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/movies/update/2",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"update",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/delete/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/movies/delete/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Selección de función (cascada):",
+			"request": {
+				"method": "INFO",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "ignorar",
+					"host": [
+						"ignorar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/currently-available",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/movies/currently-available",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"currently-available"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/{id}/branches (obtiene todas las sucursales {distinct} en la que se esta screeneando una pelicula)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/movies/3/branches",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"3",
+						"branches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/{idMovie}/branches/{idBranch}/screening-dates (obtiene todas las fechas {distinct} en la que se esta estrenando una pelicula en una sucursal en particular)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/movies/3/branches/3/screening-dates",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"3",
+						"branches",
+						"3",
+						"screening-dates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/{idMovie}/branches/{idBranch}/dates/{date}/screening-times (obtiene todas las horas {distinct} en la que se esta estrenando una pelicula en una sucursal en particular, en una fecha en particular)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/movies/3/branches/3/dates/2024-10-15/screening-times",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"3",
+						"branches",
+						"3",
+						"dates",
+						"2024-10-15",
+						"screening-times"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/{idMovie}/branches/{idBranch}/dates/{date}/screening-times/{screeningTime}/get-available-rooms (obtiene las rooms dados todos los datos previos)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/movies/9/branches/3/dates/2024-10-15/screening-times/24:00:00/get-available-rooms",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"9",
+						"branches",
+						"3",
+						"dates",
+						"2024-10-15",
+						"screening-times",
+						"24:00:00",
+						"get-available-rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/movies/get-screening-from-cascade-dropdown (con todos los datos de todos los dropdown, obtiene el screeningid correspondiente para luego ir a elegir los asientos y posteriormente hacer la reserva)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"movieId\": 9,\r\n    \"branchId\": 3,\r\n    \"date\": \"2024-10-15\",\r\n    \"time\": \"24:00:00\",\r\n    \"roomId\": 5\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/movies/get-screening-from-cascade-dropdown",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"get-screening-from-cascade-dropdown"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "3abf83ad-711f-491f-8ce0-271822494610",
+		"name": "Food",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38468413",
+		"_collection_link": "https://proyecto-tic-1.postman.co/workspace/Proyecto-TIC-1-Workspace~db9d4399-5ac0-4464-8016-4687fe80b6ee/collection/38468413-3abf83ad-711f-491f-8ce0-271822494610?action=share&source=collection_link&creator=38468413"
+	},
+	"item": [
+		{
+			"name": "api/food/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Pop\",\r\n  \"type\": \"Combo\",\r\n  \"price\": 5.49\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/food/create",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"food",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/food",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/food",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"food"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/food/view/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/food/view/2",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"food",
+						"view",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/food/update/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Pop salado\",\r\n  \"type\": \"Combo\",\r\n  \"price\": 5.49\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/food/update/2",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"food",
+						"update",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/food/delete/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/food/delete/3",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"food",
+						"delete",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
