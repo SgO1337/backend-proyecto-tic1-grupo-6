@@ -17,7 +17,7 @@ public interface ScreeningRepository extends JpaRepository<Screenings, Long> {
             "JOIN s.room r " +
             "WHERE s.movie.idMovie = :movieId " +
             "AND r.branch.idBranch = :branchId " +
-            "AND CONCAT(s.date, ' ', s.time) > CURRENT_TIMESTAMP")
+            "AND TO_TIMESTAMP(CONCAT(s.date, ' ', s.time), 'YYYY-MM-DD HH24:MI:SS') > CURRENT_TIMESTAMP")
     List<String> findScreeningDatesByMovieAndBranch(@Param("movieId") Long movieId, @Param("branchId") Long branchId);
 
     @Query("SELECT DISTINCT s.time FROM Screenings s " +  // Fetch the time as string
