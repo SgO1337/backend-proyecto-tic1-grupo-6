@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
 import org.springframework.web.servlet.function.RouterFunctions;
+import java.io.File;
 
 import java.io.IOException;
 
@@ -18,22 +19,24 @@ import java.io.IOException;
 public class DemoApplication {
 
     public static void main(String[] args) {
-        //Esto es para desarrollo, .env local
-        /*
-        Dotenv dotenv = Dotenv.load();
-        System.setProperty("DB_URL", dotenv.get("DB_URL"));
-        System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
-        System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
-        */
+        // Check if .env file exists in the root directory
+        File envFile = new File(".env");
 
-        //Esto es para prod
-        String dbUrl = System.getenv("DB_URL");
-        String dbUsername = System.getenv("DB_USERNAME");
-        String dbPassword = System.getenv("DB_PASSWORD");
-        System.setProperty("DB_URL", dbUrl);
-        System.setProperty("DB_USERNAME", dbUsername);
-        System.setProperty("DB_PASSWORD", dbPassword);
-        //
+        if (envFile.exists()) {
+            // Load .env for development mode
+            Dotenv dotenv = Dotenv.load();
+            System.setProperty("DB_URL", dotenv.get("DB_URL"));
+            System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
+            System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
+        } else {
+            // Load environment variables for production mode
+            String dbUrl = System.getenv("DB_URL");
+            String dbUsername = System.getenv("DB_USERNAME");
+            String dbPassword = System.getenv("DB_PASSWORD");
+            System.setProperty("DB_URL", dbUrl);
+            System.setProperty("DB_USERNAME", dbUsername);
+            System.setProperty("DB_PASSWORD", dbPassword);
+        }
 
         SpringApplication.run(DemoApplication.class, args);
     }
