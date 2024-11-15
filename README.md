@@ -37,8 +37,8 @@ Para responder a estas necesidades, se desarrollará una aplicación web que ges
 ### **Funcionales**
 - Registro, inicio y cierre de sesión.  
 - Consulta de cartelera.  
-- Gestión de reservas de funciones y snacks.  
-- Cancelación de reservas.  
+- Gestión de reservas de funciones.  
+- Cancelación de reservas.
 
 ### **Técnicos**
 - API REST documentada.  
