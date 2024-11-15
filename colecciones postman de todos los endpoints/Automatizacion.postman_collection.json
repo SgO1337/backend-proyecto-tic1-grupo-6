@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "e2739241-42bc-4883-b66d-b6016a67c408",
+		"name": "Automatizacion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38468413",
+		"_collection_link": "https://proyecto-tic-1.postman.co/workspace/db9d4399-5ac0-4464-8016-4687fe80b6ee/collection/38468413-e2739241-42bc-4883-b66d-b6016a67c408?action=share&source=collection_link&creator=38468413"
+	},
+	"item": [
+		{
+			"name": "screenings aleatorios automatizados",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Datos generados aleatorios\r",
+							"const movieIds = [7, 8, 9, 11, 12, 13, 14];\r",
+							"const roomIds = Array.from({ length: 49 }, (_, i) => i + 1); // Salas entre 1 y 49\r",
+							"const languages = [\"Spanish\", \"English\", \"Portuguese\"];\r",
+							"const subtitles = [\"Spanish\", \"English\", \"Portuguese\", \"French\", \"Italian\", \"German\"];\r",
+							"\r",
+							"// Función para obtener una fecha posterior al lunes 18 de octubre de 2024\r",
+							"function getRandomDate() {\r",
+							"    const startDate = new Date(2024, 9, 18); // Octubre 18, 2024 (mes 9 = Octubre)\r",
+							"    const randomDays = Math.floor(Math.random() * 365); // Genera un número aleatorio de días hasta 1 año después\r",
+							"    startDate.setDate(startDate.getDate() + randomDays);\r",
+							"    return startDate.toISOString().split('T')[0]; // Devuelve la fecha en formato YYYY-MM-DD\r",
+							"}\r",
+							"\r",
+							"// Función para obtener una hora aleatoria\r",
+							"function getRandomTime() {\r",
+							"    const hours = Math.floor(Math.random() * 24); // Hora aleatoria entre 0 y 23\r",
+							"    const minutes = Math.floor(Math.random() * 60); // Minutos aleatorios entre 0 y 59\r",
+							"    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;\r",
+							"}\r",
+							"\r",
+							"// Generación de valores aleatorios\r",
+							"const randomMovieId = movieIds[Math.floor(Math.random() * movieIds.length)];\r",
+							"const randomRoomId = roomIds[Math.floor(Math.random() * roomIds.length)];\r",
+							"const randomLanguage = languages[Math.floor(Math.random() * languages.length)];\r",
+							"const randomSubtitles = subtitles[Math.floor(Math.random() * subtitles.length)];\r",
+							"const randomDate = getRandomDate();\r",
+							"const randomTime = getRandomTime();\r",
+							"\r",
+							"// Crear el cuerpo de la solicitud para la creación de screenings\r",
+							"const requestBody = {\r",
+							"    \"date\": randomDate,\r",
+							"    \"time\": randomTime,\r",
+							"    \"language\": randomLanguage,\r",
+							"    \"subtitles\": randomSubtitles,\r",
+							"    \"movie\": {\r",
+							"        \"idMovie\": randomMovieId\r",
+							"    },\r",
+							"    \"room\": {\r",
+							"        \"idRoom\": randomRoomId\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// Loguear los valores generados para verificar\r",
+							"console.log(\"Generated Screening Request Body:\", requestBody);\r",
+							"\r",
+							"// Establecer el cuerpo de la solicitud en Postman directamente\r",
+							"pm.request.body.raw = JSON.stringify(requestBody);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"date\": \"{{screeningRequestBody.date}}\",\r\n    \"time\": \"{{screeningRequestBody.time}}\",\r\n    \"language\": \"{{screeningRequestBody.language}}\",\r\n    \"subtitles\": \"{{screeningRequestBody.subtitles}}\",\r\n    \"movie\": {\r\n        \"idMovie\": {{screeningRequestBody.movie.idMovie}}\r\n    },\r\n    \"room\": {\r\n        \"idRoom\": {{screeningRequestBody.room.idRoom}}\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://backend-proyecto-tic1-grupo-6.onrender.com/api/screenings/create",
+					"protocol": "https",
+					"host": [
+						"backend-proyecto-tic1-grupo-6",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"screenings",
+						"create"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"// Datos para seleccionar aleatoriamente\r",
+					"const movieIds = [7, 8, 9, 11, 12, 13, 14];\r",
+					"const roomIds = Array.from({ length: 49 }, (_, i) => i + 1); // Salas entre 1 y 49\r",
+					"const languages = [\"Spanish\", \"English\", \"Portuguese\"];\r",
+					"const subtitles = [\"Spanish\", \"English\", \"Portuguese\", \"French\", \"Italian\", \"German\"];\r",
+					"\r",
+					"// Función para obtener una fecha posterior al lunes 18 de octubre de 2024\r",
+					"function getRandomDate() {\r",
+					"    const startDate = new Date(2024, 9, 18); // Octubre 18, 2024 (mes 9 = Octubre)\r",
+					"    const randomDays = Math.floor(Math.random() * 365); // Genera un número aleatorio de días hasta 1 año después\r",
+					"    startDate.setDate(startDate.getDate() + randomDays);\r",
+					"    return startDate.toISOString().split('T')[0]; // Devuelve la fecha en formato YYYY-MM-DD\r",
+					"}\r",
+					"\r",
+					"// Función para obtener una hora aleatoria\r",
+					"function getRandomTime() {\r",
+					"    const hours = Math.floor(Math.random() * 24); // Hora aleatoria entre 0 y 23\r",
+					"    const minutes = Math.floor(Math.random() * 60); // Minutos aleatorios entre 0 y 59\r",
+					"    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;\r",
+					"}\r",
+					"\r",
+					"// Generación de valores aleatorios\r",
+					"const randomMovieId = movieIds[Math.floor(Math.random() * movieIds.length)];\r",
+					"const randomRoomId = roomIds[Math.floor(Math.random() * roomIds.length)];\r",
+					"const randomLanguage = languages[Math.floor(Math.random() * languages.length)];\r",
+					"const randomSubtitles = subtitles[Math.floor(Math.random() * subtitles.length)];\r",
+					"const randomDate = getRandomDate();\r",
+					"const randomTime = getRandomTime();\r",
+					"\r",
+					"// Crear el cuerpo de la solicitud para la creación de screenings\r",
+					"const requestBody = {\r",
+					"    \"date\": randomDate,\r",
+					"    \"time\": randomTime,\r",
+					"    \"language\": randomLanguage,\r",
+					"    \"subtitles\": randomSubtitles,\r",
+					"    \"movie\": {\r",
+					"        \"idMovie\": randomMovieId\r",
+					"    },\r",
+					"    \"room\": {\r",
+					"        \"idRoom\": randomRoomId\r",
+					"    }\r",
+					"};\r",
+					"\r",
+					"// Establecer el cuerpo de la solicitud\r",
+					"pm.environment.set(\"screeningRequestBody\", JSON.stringify(requestBody));\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
