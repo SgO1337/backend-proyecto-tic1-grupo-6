@@ -3,7 +3,7 @@
 ---
 
 ## **Integrantes**
-- Rodrigo Quinke  
+- Rodrigo Quincke  
 - Paula Strimber  
 - Santiago García  
 - Nicolás Wildbam  
