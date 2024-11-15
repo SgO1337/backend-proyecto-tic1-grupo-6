@@ -29,7 +29,7 @@ El proyecto consiste en el desarrollo de un sistema integral para la gestión de
 | 7                | Malvín           | 3                      |
 | 8                | Buceo            | 6                      |
 
-Para responder a estas necesidades, se desarrollará una aplicación web que gestione las operaciones solicitadas. Inicialmente, se abrirán 8 sucursales en Montevideo, con salas estándar predefinidas de 15 filas y 10 asientos por fila.  
+Para responder a estas necesidades, se desarrollará una aplicación web que gestione las operaciones solicitadas. Inicialmente, se abrirán las 8 sucursales especificadas en la tabla superior, con salas estándar predefinidas de 15 filas y 10 asientos por fila.  
 
 ---
 
