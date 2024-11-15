@@ -18,21 +18,6 @@ La empresa estadounidense **What The Fun Cinema** ha decidido expandirse al merc
 
 Para adaptarse a las necesidades locales, se implementará un software completamente nuevo, diseñado para gestionar las particularidades de sus operaciones en Uruguay. Inicialmente, se inaugurarán 8 sucursales en los principales barrios de Montevideo, con salas estándar (15 filas y 10 asientos por fila) en cada cine.  
 
----
-
-## **Objetivos del Proyecto**
-- **Usuarios finales:**  
-  - **Registro e inicio de sesión:** Permitir que los usuarios se registren de manera segura y accedan a su cuenta.  
-  - **Gestión de reservas:** Facilitar la reserva de asientos en las funciones disponibles y la compra de snacks.  
-  - **Consultas:** Brindar información detallada sobre películas, funciones y snacks.  
-  - **Historial:** Proporcionar un historial de compras y reservas.  
-
-- **Administradores:**  
-  - Gestionar películas, funciones, salas y snacks.  
-  - Visualizar las estadísticas de reservas y ventas.  
-
----
-
 ## **Novedades Incluidas en el Proyecto**
 Además de los requisitos iniciales de la empresa, el sistema incluirá la funcionalidad de **reserva de snacks**. Los usuarios podrán:  
 1. **Reservar snacks y bebidas**  
@@ -185,14 +170,36 @@ Este flujo garantiza una navegación intuitiva y eficiente, permitiendo a los us
 - Gestionar sus reservas y compras desde cualquier dispositivo.  
 - Personalizar su experiencia a través de su perfil.  
 
-## Configuración general del proyecto
-###Para el backend:
-El archivo application.properties contiene la configuración de la base de datos.  
-Para entrar a modo desarollo, se debera crear un .env en la raiz del proyecto, configurando las variables de sesion DB_URL, DB_USERNAME y DB_PASSWORD.
-Alternativamente, al realizar el deploy a produccion, se deberan configurar en el mismo servicio de deploy, sin crear un archivo aparte.
-###Para el frontend:
-Con npm, ejecutar npm install en la raiz del proyecto para descargar e instalar todas las dependencias necesarias. 
-Luego con npm start se inicia un servidor de desarrollo, y con con npm run build se genera una build optimizada para produccion.
+## **Configuración General del Proyecto**
 
-## Modelo Entidad Relacion (MER) final del proyecto:
-![image](https://github.com/user-attachments/assets/6f86d108-7424-4bf1-9ed4-457595e36c11)
+### **Backend**  
+- El archivo `application.properties` contiene la configuración de la base de datos principal.  
+- Para trabajar en **modo desarrollo**, es necesario crear un archivo `.env` en la raíz del proyecto con las siguientes variables de entorno:  
+  - `DB_URL`  
+  - `DB_USERNAME`  
+  - `DB_PASSWORD`  
+- En caso de realizar un despliegue en **producción**, las variables deben configurarse directamente en el servicio de hosting utilizado, sin necesidad de un archivo `.env`. Esto asegura mayor seguridad en la gestión de credenciales.  
+
+### **Frontend**  
+- Antes de iniciar, asegúrate de instalar todas las dependencias necesarias ejecutando:  
+  ```bash
+  npm install
+  ```  
+- Para levantar un servidor de desarrollo y probar la aplicación localmente:  
+  ```bash
+  npm start
+  ```  
+- Al generar una versión optimizada para producción, usa:  
+  ```bash
+  npm run build
+  ```  
+  Esto creará una carpeta con los archivos listos para ser desplegados en un servidor o servicio de hosting como por ejemplo Render.
+
+---
+
+## **Modelo Entidad-Relación (MER) Final del Proyecto**  
+El diseño del modelo entidad-relación garantiza que todos los datos relevantes para la gestión de usuarios, funciones, reservas y snacks estén representados y vinculados de forma eficiente.  
+### **Diagrama MER:**  
+![image](https://github.com/user-attachments/assets/6f86d108-7424-4bf1-9ed4-457595e36c11)  
+
+---
