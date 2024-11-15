@@ -16,7 +16,8 @@ El proyecto consiste en el desarrollo de un sistema integral para la gestión de
 ### **Contexto del Proyecto**  
 **What The Fun Cinema**, una empresa estadounidense, expande su modelo de negocio a Uruguay con una propuesta innovadora: durante los primeros seis meses, las entradas a las funciones serán gratuitas, generando ingresos exclusivamente a través de la venta de alimentos y bebidas.  
 
-##· **Lista de Ubicaciones Iniciales**
+### **Lista de Ubicaciones Iniciales**
+
 | **ID Sucursal** | **Barrio**       | **Cantidad de Salas** |
 |------------------|------------------|------------------------|
 | 1                | Punta Carretas   | 8                      |
