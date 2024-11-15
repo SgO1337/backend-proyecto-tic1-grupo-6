@@ -91,13 +91,78 @@ Además de los requisitos iniciales, el sistema contará con:
 
 ---
 
-## **Flujo de la Aplicación**
-### **Pantallas Principales**
-1. **Inicio:** Exploración pública de películas. Autenticación necesaria para reservas.  
-2. **Registro e Inicio de Sesión:** Creación de cuenta y acceso seguro.  
-3. **Perfil:** Gestión de información personal y reservas.  
-4. **Reservas:** Historial detallado de reservas de funciones y snacks.  
-5. **Catálogo:** Selección de películas, snacks y asientos interactivos.  
+# **Flujo de la Aplicación**
+
+### **Pantalla de Inicio (Home)**  
+Cuando un usuario accede a la aplicación, se encuentra con la pantalla principal:  
+![image](https://github.com/user-attachments/assets/cec58ab3-19b7-4f26-af85-01b1e127a70e)  
+
+- **Acceso rápido:** En la esquina superior derecha, se encuentran los botones para registrarse o iniciar sesión.  
+- **Exploración pública:** Los usuarios pueden ver la cartelera de películas disponibles sin necesidad de estar autenticados. Sin embargo, para realizar reservas, es obligatorio iniciar sesión.  
+
+---
+
+### **Pantalla de Registro**  
+La pantalla de registro permite a los usuarios crear una cuenta ingresando información personal básica. Una vez registrados, pueden iniciar sesión para acceder a todas las funcionalidades de la aplicación.  
+![image](https://github.com/user-attachments/assets/2479fb57-3905-4752-98f3-bce61c8e3eb1)  
+
+---
+
+### **Pantalla de Inicio de Sesión (Login)**  
+Desde aquí, los usuarios existentes pueden autenticarse ingresando sus credenciales.  
+![image](https://github.com/user-attachments/assets/6d351b25-f9ca-4abd-9efa-763f32fa8cf0)  
+
+---
+
+### **Pantalla de Inicio para Usuarios Logueados**  
+Una vez autenticado, el usuario accede a una versión personalizada del Home:  
+![image](https://github.com/user-attachments/assets/f65add2d-5c0f-4671-a48d-b4cf46dc5e2e)  
+
+#### **Navegación superior:**  
+- **Películas y Snacks:** El usuario puede alternar entre explorar la cartelera o la lista de snacks disponibles.  
+- **Perfil:** Acceso al perfil del usuario.  
+- **Reservas:** Visualización de las reservas de películas y snacks realizadas.
+
+---
+
+### **Pantalla de Perfil del Usuario**  
+En esta sección, el usuario puede:  
+- Visualizar su información personal.  
+- Editar detalles de su cuenta si es necesario.  
+![image](https://github.com/user-attachments/assets/0d1797ef-156f-46b7-9e03-c6060e231f08)  
+
+---
+
+### **Pantalla de Reservas (My Purchases)**  
+#### **Reservas de Funciones:**  
+Esta pantalla muestra un historial detallado de las reservas realizadas por el usuario para las funciones de cine.  
+![image](https://github.com/user-attachments/assets/01dad89f-c155-4160-8c97-8ee19bb1c60d)  
+
+#### **Reservas de Snacks:**  
+Aquí se presentan las compras y reservas de snacks realizadas.  
+![image](https://github.com/user-attachments/assets/adac49bc-33c4-45ca-be02-7b295175e577)  
+
+---
+
+### **Pantalla de Reserva de Snacks**  
+El usuario puede seleccionar alimentos y bebidas para reservar, viendo un listado con precios actualizados.  
+![image](https://github.com/user-attachments/assets/f5ef5151-1f0c-4580-a134-5354127d3678)  
+
+---
+
+### **Flujo de Reserva de Funciones**
+1. **Selección de Película:**  
+   Al seleccionar una película en el Home, se redirige al menú de selección de función:  
+   - **Opciones a elegir:** Sucursal, fecha, horario, y sala.  
+   - **Selección de asientos:** Especificar la cantidad de asientos a reservar.  
+   ![Proyecto nuevo (5)](https://github.com/user-attachments/assets/abe509d4-4cf2-4f66-9167-3fc5ec1a25e6)  
+
+2. **Selección de Asientos:**  
+   Una vez elegida la función, se accede a la pantalla de selección de butacas, donde el usuario puede elegir los asientos disponibles en un plano interactivo.  
+   ![Proyecto nuevo (6)](https://github.com/user-attachments/assets/3dd29dbc-2fe8-4039-8ee5-316929c56785)  
+
+3. **Confirmación de Reserva:**  
+   Al completar la reserva exitosamente, se redirige a la pantalla de "My Bookings," donde el usuario puede revisar los detalles de su compra y reserva.  
 
 ---
 
