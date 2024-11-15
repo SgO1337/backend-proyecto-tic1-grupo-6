@@ -11,32 +11,32 @@
 ---
 
 ## **Descripción del Proyecto**  
-El proyecto consiste en el desarrollo de un sistema integral para la gestión de cines, diseñado específicamente para **What The Fun Cinema** en Uruguay. Este sistema permitirá administrar funciones, reservas y compras de entradas y snacks, ofreciendo una experiencia moderna y eficiente tanto para usuarios como para administradores.  
+El proyecto consiste en el desarrollo de un sistema integral para la gestión de cines, diseñado específicamente para **What The Fun Cinema** en Uruguay. Este sistema permitirá administrar funciones, reservas y compras de entradas y snacks, ofreciendo una experiencia moderna y eficiente a los usuarios finales.  
 
 ### **Contexto del Proyecto**  
 **What The Fun Cinema**, una empresa estadounidense, expande su modelo de negocio a Uruguay con una propuesta innovadora: durante los primeros seis meses, las entradas a las funciones serán gratuitas, generando ingresos exclusivamente a través de la venta de alimentos y bebidas.  
 
-Para responder a estas necesidades, se desarrollará un software nuevo que gestione las operaciones locales. Inicialmente, se abrirán 8 sucursales en Montevideo, con salas estándar de 15 filas y 10 asientos por fila.  
+Para responder a estas necesidades, se desarrollará una aplicación web que gestione las operaciones solicitadas. Inicialmente, se abrirán 8 sucursales en Montevideo, con salas estándar predefinidas de 15 filas y 10 asientos por fila.  
 
 ---
 
 ## **Novedades Incluidas en el Proyecto**
 Además de los requisitos iniciales, el sistema contará con:  
 1. **Reserva de snacks y bebidas.**  
-2. **Gestión unificada de reservas de películas y snacks.**
+2. **Uso de cookies de sesión para todo el flujo de la aplicación final.**
 
 ---
 
 ## **Características Principales**
 ### **Usuarios**
 - **Registro seguro:** Contraseñas protegidas mediante hashing.  
-- **Autenticación:** Inicio y cierre de sesión mediante tokens.  
+- **Autenticación y sesiones:** Inicio y cierre de sesión mediante tokens.  
 - **Perfil de usuario:** Información personal, historial de compras y reservas.
 
 ### **Películas**
 - **Cartelera completa:** Detalles de todas las películas disponibles.  
-- **Gestión de funciones:** Selección de sucursal, fecha y horario.  
-- **Reserva de asientos:** Selección interactiva de asientos disponibles.
+- **Gestión de funciones:** Selección de sucursal, sala, fecha y horario.  
+- **Reserva de asientos:** Selección interactiva de asientos disponibles en cada función, para permitir la reserva.
 
 ### **Snacks**
 - **Catálogo:** Listado de alimentos y bebidas con precios actualizados.  
@@ -87,7 +87,6 @@ Además de los requisitos iniciales, el sistema contará con:
 ### **Técnicos**
 - API REST documentada.  
 - Cobertura de tests unitarios: 80%.  
-- Buenas prácticas de código (uso de linters).  
 
 ---
 
@@ -166,10 +165,6 @@ El usuario puede seleccionar alimentos y bebidas para reservar, viendo un listad
 
 ---
 
-¡Entiendo! Si hay varias colecciones de Postman en el repositorio, podemos estructurarlas y proporcionar una descripción clara para cada una. Aquí te dejo un ejemplo de cómo podrías organizarlo:
-
----
-
 # **Endpoints disponibles**
 
 El repositorio del backend incluye varias colecciones de Postman que contienen los detalles completos de todos los endpoints detallados a continuación, asi como ejemplos de uso.
@@ -230,7 +225,7 @@ El repositorio del backend incluye varias colecciones de Postman que contienen l
 ### **Backend**
 - Configuración principal en `application.properties`.  
 - Variables de entorno en `.env` para modo desarrollo (`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`).  
-- Configuración en hosting para despliegue en producción.  
+- Configuración en hosting para despliegue en producción (sin archivo .env local).  
 
 ### **Frontend**
 1. Instalar dependencias:  
@@ -252,5 +247,3 @@ El repositorio del backend incluye varias colecciones de Postman que contienen l
 El diseño garantiza la representación y conexión eficiente de datos relacionados con usuarios, funciones, reservas y snacks.  
 
 ![Diagrama MER](https://github.com/user-attachments/assets/6f86d108-7424-4bf1-9ed4-457595e36c11)  
-
---- 
